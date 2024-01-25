@@ -1,0 +1,13 @@
+{
+  "home": "Home",
+  "set_language": "1",
+  "are_you_sure": "Are you sure?",
+  "cancel_order": "Do you want to request the cancellation of this order?",
+  "request_sent": "Request sent",
+  "yes": "Yes",
+  "no": "No",
+  "cancel": "Cancel",
+  "load_more": "Load more",
+  "no_orders_yet": "No orders yet",
+  "orders": "Orders"
+}
