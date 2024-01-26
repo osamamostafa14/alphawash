@@ -167,44 +167,6 @@ class _AddPinPointScreenState extends State<AddPinPointScreen> {
                                 )
                               : const SizedBox(),
 
-                          // Positioned(
-                          //   bottom: 0,
-                          //   right: 0,
-                          //   left: 0,
-                          //   child: Column(
-                          //     crossAxisAlignment: CrossAxisAlignment.end,
-                          //     children: [
-                          //
-                          //       const SizedBox(height: 20),
-                          //
-                          //       Container(
-                          //         child: Padding(
-                          //           padding: const EdgeInsets.all(8.0),
-                          //           child: Column(
-                          //             children: [
-                          //
-                          //               const SizedBox(height: 7),
-                          //
-                          //               locationProvider.storeAreaLoading?
-                          //               Center(child: CircularProgressIndicator(
-                          //                   valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))):
-                          //               Padding(
-                          //                 padding: const EdgeInsets.only(bottom: 38),
-                          //                 child: CustomButton(
-                          //                   btnTxt: 'Confirm',
-                          //                   onTap: locationProvider.loading ? null : () {
-                          //
-                          //                   },
-                          //                 ),
-                          //               )
-                          //             ],
-                          //           ),
-                          //         ),
-                          //       ),
-                          //     ],
-                          //   ),
-                          // ),
-
                           locationProvider.loading
                               ? Center(
                                   child: CircularProgressIndicator(

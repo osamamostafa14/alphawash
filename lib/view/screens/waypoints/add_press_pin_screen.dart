@@ -49,58 +49,58 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
   Widget build(BuildContext context) {
     return Consumer2<WorkerProvider, LocationProvider>(
       builder: (context, workerProvider, locationProvider, child) {
-        Set<Marker> markers = {};
+      // Set<Marker> markers = {};
+      //
+      //   if (locationProvider.markers != null &&
+      //       widget.waypoint!.pinPoints != null &&
+      //       widget.waypoint!.pinPoints!.isNotEmpty) {
+      //     markers.addAll(locationProvider.markers.waypoint!.pinPoints!.map((pinPoint) {
+      //       LatLng point = LatLng(
+      //         double.parse(pinPoint.latitude!),
+      //         double.parse(pinPoint.longitude!),
+      //       );
+      //
+      //       return Marker(
+      //         markerId: MarkerId(point.toString()),
+      //         position: point,
+      //         onTap: () {
+      //           print('bottom sheet');
+      //
+      //           showModalBottomSheet(
+      //             context: context,
+      //             isScrollControlled: true,
+      //             backgroundColor: Colors.transparent,
+      //             builder: (con) {
+      //
+      //               return PinpointInfoBottomSheet(
+      //                 pinPointModel: pinPoint,
+      //                 locationProvider: locationProvider,
+      //
+      //               );
+      //             },
+      //           );
+      //         },
+      //
+      //         // onTap: () {
+      //         //   workerProvider.getOldTasks(context, pinPoint.id!);
+      //         //   showModalBottomSheet(
+      //         //     context: context,
+      //         //     isScrollControlled: true,
+      //         //     backgroundColor: Colors.transparent,
+      //         //     builder: (con) {
+      //         //       return PinpointInfoBottomSheet(
+      //         //         pinPointModel: pinPoint,
+      //         //         locationProvider: locationProvider, // Pass the locationProvider instance
+      //         //       );
+      //         //     },
+      //         //   );
+      //         //
+      //         // },
+      //       );
+      //     }));
+      //   }
 
-        if (widget.waypoint != null &&
-            widget.waypoint!.pinPoints != null &&
-            widget.waypoint!.pinPoints!.isNotEmpty) {
-          markers.addAll(widget.waypoint!.pinPoints!.map((pinPoint) {
-            LatLng point = LatLng(
-              double.parse(pinPoint.latitude!),
-              double.parse(pinPoint.longitude!),
-            );
-
-            return Marker(
-              markerId: MarkerId(pinPoint.id.toString()),
-              position: point,
-              onTap: () {
-                print('bottom sheet');
-
-                showModalBottomSheet(
-                  context: context,
-                  isScrollControlled: true,
-                  backgroundColor: Colors.transparent,
-                  builder: (con) {
-
-                    return PinpointInfoBottomSheet(
-                      pinPointModel: pinPoint,
-                      locationProvider: locationProvider,
-
-                    );
-                  },
-                );
-              },
-
-              // onTap: () {
-              //   workerProvider.getOldTasks(context, pinPoint.id!);
-              //   showModalBottomSheet(
-              //     context: context,
-              //     isScrollControlled: true,
-              //     backgroundColor: Colors.transparent,
-              //     builder: (con) {
-              //       return PinpointInfoBottomSheet(
-              //         pinPointModel: pinPoint,
-              //         locationProvider: locationProvider, // Pass the locationProvider instance
-              //       );
-              //     },
-              //   );
-              //
-              // },
-            );
-          }));
-        }
-
-        markers.addAll(locationProvider.markers);
+       // markers.addAll(locationProvider.markers);
 
         return Scaffold(
           appBar: AppBar(
@@ -141,15 +141,15 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
                         ? MapType.satellite
                         : MapType.normal,
                     initialCameraPosition: CameraPosition(
-                      target: markers.isNotEmpty
-                          ? markers.first.position
+                      target: locationProvider.markers.isNotEmpty
+                          ? locationProvider.markers.first.position
                           : LatLng(0, 0),
                       zoom: 15,
                     ),
                     onTap: (LatLng tappedPoint) {
                       locationProvider.addMarker(context, tappedPoint, false);
                     },
-                    markers: markers,
+                    markers: locationProvider.markers,
                     onMapCreated: (GoogleMapController controller) {
                       _controller = controller;
                     },

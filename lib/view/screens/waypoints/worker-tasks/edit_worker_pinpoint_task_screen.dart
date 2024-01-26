@@ -102,7 +102,7 @@ class _EditPinPointTasksDetailsScreenState
             icon: Icon(Icons.arrow_back, color: Colors.white),
           ),
           centerTitle: true,
-          title: Text('Task Details ${jsonEncode(widget.task!.pinpointId)}',
+          title: Text('Task Details',
               style: TextStyle(color: Colors.white)),
         ),
         body:
@@ -178,6 +178,14 @@ class _EditPinPointTasksDetailsScreenState
                             SizedBox(
                               height: 20,
                             ),
+                                Provider.of<ProfileProvider>(context, listen: false)
+                                    .userInfoModel!.workerPermissions!.editPinpoints == 0?
+                                     Align(
+                                       alignment: Alignment.center,
+                                       child: Text('You don\'t have permissions to edit pinpoint task!', style: TextStyle(
+                                         color: Colors.black87, fontWeight: FontWeight.w500, fontSize: 14
+                                       )),
+                                     ):
                             workerProvider.isLoading
                                 ? Center(
                                     child: CircularProgressIndicator(

@@ -67,7 +67,7 @@ class _WorkerTaskScreenState extends State<WorkerTaskScreen> {
                             : workerProvider.workerTasks.isEmpty
                                 ? const Padding(
                                     padding: EdgeInsets.only(top: 100),
-                                    child: Center(child: Text('No  tasks yet')),
+                                    child: Center(child: Text('No tasks yet')),
                                   )
                                 : Column(
                                     crossAxisAlignment:

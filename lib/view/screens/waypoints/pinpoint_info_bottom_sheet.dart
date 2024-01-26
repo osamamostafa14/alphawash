@@ -1,6 +1,7 @@
 import 'package:alphawash/data/model/response/pin_point_model.dart';
 import 'package:alphawash/provider/splash_provider.dart';
 import 'package:alphawash/provider/worker_provider.dart';
+import 'package:alphawash/view/base/custom_button.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/list_pinpoint_tasks_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -12,11 +13,9 @@ import '../../../provider/location_provider.dart';
 
 class PinpointInfoBottomSheet extends StatelessWidget {
   final PinPointModel? pinPointModel;
-  final LocationProvider? locationProvider;
 
   PinpointInfoBottomSheet({
     @required this.pinPointModel,
-    @required this.locationProvider,
   });
   @override
   Widget build(BuildContext? context) {
@@ -104,7 +103,7 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                             child: Image.network(
                                                 '${Provider.of<SplashProvider>(
                                                   context,
-                                                ).baseUrls!.taskImageUrl}/${lastTask!.image}',
+                                                ).baseUrls!.taskImageUrl}/${lastTask.image}',
                                                 width: 300,
                                                 height: 200,
                                                 fit: BoxFit.cover)),
@@ -182,61 +181,24 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                       "You don't have tasks yet in this pinpoint",
                                       style: TextStyle(fontSize: 16),
                                     ),
-                                    Container(
-                                        height: 120,
-                                        width: double.infinity,
-                                        child: Padding(
-                                            padding: const EdgeInsets.only(
-                                                bottom: 40, top: 15),
-                                            child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment.end,
-                                                children: [
-                                                  const SizedBox(width: 10),
-                                                  Expanded(
-                                                      child: MaterialButton(
-                                                          color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
-                                                          shape: RoundedRectangleBorder(
-                                                              borderRadius:
-                                                                  BorderRadius
-                                                                      .circular(
-                                                                          10)),
-                                                          onPressed: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          child: Text("Ok",
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white)))),
-                                                  const SizedBox(width: 10),
-                                                ])),
-                                        decoration: BoxDecoration(
-                                            // color: Theme.of(context)
-                                            //     .primaryColor,
-                                            borderRadius:
-                                                BorderRadiusDirectional.only(
-                                                    bottomStart:
-                                                        Radius.circular(28),
-                                                    bottomEnd:
-                                                        Radius.circular(28)))),
-                                    Align(
-                                        alignment: Alignment.bottomLeft,
-                                        child: IconButton(
-                                          icon: Icon(
-                                            Icons.delete,
-                                            color: Colors.red,
-                                            size: 28,
-                                          ),
-                                          onPressed: (){
-                                            Provider.of<LocationProvider>(context, listen: false).removeMarker(
-                                                LatLng(
-                                                    double.parse(pinPointModel!.latitude!), double.parse(pinPointModel!.longitude!)).toString()
-                                            );
-                                          },
-                                        )),
+                                    const SizedBox(height: 10),
+                                    CustomButton(btnTxt: 'Ok',
+                                    height: 38,
+                                    onTap: (){
+                                      Navigator.pop(
+                                          context);
+                                    }),
+                                    CustomButton(btnTxt: 'Remove',
+                                        height: 38,
+                                        backgroundColor: Colors.red,
+                                        onTap: (){
+                                          Provider.of<LocationProvider>(context, listen: false).removeMarker(
+                                              pinPointModel!.id.toString()
+                                          );
+                                          Navigator.pop(
+                                              context);
+                                        }),
+
                                   ],
                                 ),
                         ),

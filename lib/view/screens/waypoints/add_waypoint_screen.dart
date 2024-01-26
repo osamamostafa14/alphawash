@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:alphawash/data/model/response/pin_point_model.dart';
 import 'package:alphawash/data/model/response/waypoint_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
@@ -22,8 +24,10 @@ class _AddWaypointScreenState extends State<AddWaypointScreen> {
   void initState() {
     super.initState();
     _nameController = TextEditingController();
-    context.read<LocationProvider>().updateSelectedDay("Select a day");
 
+    Timer(const Duration(seconds: 0), () {
+      context.read<LocationProvider>().updateSelectedDay("Select a day");
+    });
   }
 
   @override
@@ -165,6 +169,7 @@ class _AddWaypointScreenState extends State<AddWaypointScreen> {
                             locationProvider.searchedArea != null
                                 ? InkWell(
                                     onTap: () {
+                                      locationProvider.initNewPinPoints(context, false);
                                       FocusScope.of(context).unfocus();
                                       Navigator.push(
                                           context,

@@ -77,19 +77,7 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
       body: Consumer2<CustomerAuthProvider, ProfileProvider>(
         builder:
             (context, authProvider, profileProvider , child) {
-          print('id : ${profileProvider.userInfoModel!.workerPermissions?.id}');
-          print(
-              'area : ${profileProvider.userInfoModel!.workerPermissions?.area}');
-          print(
-              'waypoints : ${profileProvider.userInfoModel!.workerPermissions?.waypoints}');
-          print(
-              'tasks : ${profileProvider.userInfoModel!.workerPermissions?.tasks}');
-          print(
-              'show Pinpoints : ${profileProvider.userInfoModel!.workerPermissions?.showPinpoints}');
-          print(
-              'edit Pinpoints : ${profileProvider.userInfoModel!.workerPermissions?.editPinpoints}');
-          print(
-              'add Pinpoints : ${profileProvider.userInfoModel!.workerPermissions?.addPinpoints}');
+
 
           return SafeArea(
             child: Scrollbar(
@@ -107,15 +95,6 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                             color: Theme.of(context).primaryColor,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4.0)),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.grey.withOpacity(0.2),
-                                spreadRadius: 1,
-                                blurRadius: 2,
-                                offset: const Offset(
-                                    0, 1), // changes position of shadow
-                              ),
-                            ],
                           ),
                         ),
                         if (profileProvider
@@ -313,55 +292,38 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                             ],
                           ),
                         const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            profileProvider.userInfoModel!.workerPermissions
-                                        ?.tasks ==
-                                    1
-                                ? Expanded(
-                                    child: HomeButton(
-                                      onTap: () {
-                                        Provider.of<WorkerProvider>(context,
-                                                listen: false)
-                                            .getWorkerTasksList(context);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        WorkerTaskScreen()));
-                                      },
-                                      icon: Icons.task,
-                                      text: 'Tasks',
-                                    ),
-                                  )
-                                : const SizedBox(),
-
-                            profileProvider.userInfoModel!.workerPermissions
-                                        ?.tasks ==
-                                    1
-                                ? const SizedBox(width: 20)
-                                : const SizedBox(),
-
-                            // Expanded(
-                            //     child: HomeButton(
-                            //   onTap: () {
-                            //     final profile = Provider.of<ProfileProvider>(
-                            //         context,
-                            //         listen: false);
-                            //
-                            //     Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //           builder: (context) => LiveTrackingScreen(
-                            //               user: profile.userInfoModel)),
-                            //     );
-                            //   },
-                            //   icon: Icons.location_on_rounded,
-                            //   text: 'worker location',
-                            // )),
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     profileProvider.userInfoModel!.workerPermissions
+                        //                 ?.tasks ==
+                        //             1
+                        //         ? Expanded(
+                        //             child: HomeButton(
+                        //               onTap: () {
+                        //                 Provider.of<WorkerProvider>(context,
+                        //                         listen: false)
+                        //                     .getWorkerTasksList(context);
+                        //                 Navigator.push(
+                        //                     context,
+                        //                     MaterialPageRoute(
+                        //                         builder:
+                        //                             (BuildContext context) =>
+                        //                                 WorkerTaskScreen()));
+                        //               },
+                        //               icon: Icons.task,
+                        //               text: 'Tasks',
+                        //             ),
+                        //           )
+                        //         : const SizedBox(),
+                        //
+                        //     profileProvider.userInfoModel!.workerPermissions
+                        //                 ?.tasks ==
+                        //             1
+                        //         ? const SizedBox(width: 20)
+                        //         : const SizedBox(),
+                        //
+                        //   ],
+                        // ),
                         const SizedBox(height: 20),
                       ],
                     ),

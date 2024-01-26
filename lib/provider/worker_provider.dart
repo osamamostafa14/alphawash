@@ -59,13 +59,14 @@ class WorkerProvider with ChangeNotifier {
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      _reminderLoading = false;
-      notifyListeners();
+
       _reminder = [];
       apiResponse.response!.data.forEach((item) {
         ReminderModel reminder = ReminderModel.fromJson(item);
         _reminder.add(reminder);
       });
+      _reminderLoading = false;
+      notifyListeners();
     } else {
       _reminderLoading = false;
       notifyListeners();
