@@ -755,9 +755,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                               Divider(),
                                                               ListView.builder(
                                                                 itemCount:
-                                                                    workerProvider
-                                                                        .reminder!
-                                                                        .length,
+                                                                    workerProvider.reminder.length,
                                                                 physics:
                                                                     const NeverScrollableScrollPhysics(),
                                                                 shrinkWrap:
@@ -766,10 +764,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                                     (context,
                                                                         index) {
                                                                   ReminderModel
-                                                                      _reminder =
-                                                                      workerProvider
-                                                                              .reminder![
-                                                                          index];
+                                                                      _reminder = workerProvider.reminder[index];
                                                                   return Column(
                                                                     children: [
                                                                       Container(
@@ -787,14 +782,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                                               Column(
                                                                             children: [
                                                                               Row(children: [
-                                                                                Text("Pinpoint ID :", style: TextStyle(fontSize: 16)),
+                                                                                Text("Pinpoint ID:", style: TextStyle(fontSize: 16)),
                                                                                 SizedBox(
                                                                                   width: 10,
                                                                                 ),
                                                                                 Text(_reminder.pinpointId.toString(), style: TextStyle(fontSize: 14)),
                                                                               ]),
                                                                               Row(children: [
-                                                                                Text("Pinpoint Task Day :", style: TextStyle(fontSize: 16)),
+                                                                                Text("Pinpoint Task Day:", style: TextStyle(fontSize: 16)),
                                                                                 SizedBox(
                                                                                   width: 10,
                                                                                 ),

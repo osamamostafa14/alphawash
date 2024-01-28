@@ -23,7 +23,7 @@ class _AreasListScreenState extends State<AreasListScreen> {
 
   @override
   void initState() {
-    Timer(const Duration(seconds: 1), () {
+    Timer(const Duration(seconds: 0), () {
       Provider.of<LocationProvider>(context, listen: false).getAreasList(context);
     });
     super.initState();

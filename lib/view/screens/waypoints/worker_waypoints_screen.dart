@@ -37,12 +37,13 @@ class _WorkerWayPointsScreenState extends State<WorkerWayPointsScreen> {
     return Consumer<LocationProvider>(
         builder: (context, locationProvider, child) {
        List<WorkerWaypointModel> filteredWaypoints;
-          int todayDay = DateTime.now().day;
+       DateTime now = DateTime.now();
+       String todayDayName = DateFormat('EEEE').format(now);
 
           locationProvider.showFilteredWaypoints
           ? filteredWaypoints = locationProvider.workerWaypoints
               .where((waypoint) =>
-          waypoint.wayPoint?.day == todayDay)
+          waypoint.wayPoint?.day == todayDayName)
               .toList()
               : filteredWaypoints = locationProvider.workerWaypoints;
 
@@ -88,16 +89,57 @@ class _WorkerWayPointsScreenState extends State<WorkerWayPointsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      MaterialButton(
-                                        color: Theme.of(context).primaryColor,
-                                        child: Text(
-                                          locationProvider.showFilteredWaypoints
-                                              ? "Back"
-                                              : "Today Waypoints",
-                                          style: TextStyle(color: Colors.white),
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: 30, bottom: 15, top: 15),
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                locationProvider
+                                                    .changeFilteredWaypoints(false);
+                                              },
+                                              child: Container(
+                                                width: 115,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  color: !locationProvider.showFilteredWaypoints?
+                                                  Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                  border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                                ),
+                                                child: Center(child: Text('All',
+                                                    style: TextStyle(color: !locationProvider.showFilteredWaypoints?
+                                                    Colors.white :
+                                                    Theme.of(context).primaryColor,
+                                                        fontSize: 14, fontWeight: FontWeight.w500))),
+                                              ),
+                                            ),
+
+                                            const SizedBox(width: 8),
+
+                                            InkWell(
+                                              onTap: () {
+                                                locationProvider
+                                                    .changeFilteredWaypoints(true);
+                                              },
+                                              child: Container(
+                                                width: 115,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  borderRadius: BorderRadius.circular(8),
+                                                  color: locationProvider.showFilteredWaypoints?
+                                                  Theme.of(context).primaryColor : Theme.of(context).primaryColor.withOpacity(0.1),
+                                                  border: Border.all(width: 1, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                                                ),
+                                                child: Center(child: Text('Today',
+                                                    style: TextStyle(color: locationProvider.showFilteredWaypoints?
+                                                    Colors.white :
+                                                    Theme.of(context).primaryColor,
+                                                        fontSize: 14, fontWeight: FontWeight.w500))),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        onPressed: locationProvider
-                                            .changeFilteredWaypoints,
                                       ),
 
                                       locationProvider.showFilteredWaypoints

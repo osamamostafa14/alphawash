@@ -115,6 +115,7 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponse> deleteWayPointInfo(int waypointId) async {
     try {
       final response = await dioClient!
@@ -125,9 +126,9 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-  Future<ApiResponse> storeTaskInfo(
-      int workerId, int waypointId, DateTime taskDate,
-      String taskDetails) async {
+
+  Future<ApiResponse> storeTaskInfo(int workerId, int waypointId,
+      DateTime taskDate, String taskDetails) async {
     try {
       final formattedTaskDate = taskDate.toIso8601String();
       final response = await dioClient!.post(
@@ -148,4 +149,6 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
+
 }

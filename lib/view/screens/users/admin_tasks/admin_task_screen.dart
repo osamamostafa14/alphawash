@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alphawash/data/model/response/admin_task_model.dart';
+import 'package:alphawash/data/model/response/pin_point_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
 import 'package:alphawash/provider/theme_provider.dart';
 import 'package:alphawash/utill/color_resources.dart';
@@ -35,20 +36,20 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
   Widget build(BuildContext? context) {
     return Scaffold(
         backgroundColor: Theme.of(context!).scaffoldBackgroundColor,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => AdminAddTaskScreen()));
-          },
-          tooltip: 'Add',
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Theme.of(context).primaryColor,
+        //   onPressed: () {
+        //     Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (BuildContext context) => AdminAddTaskScreen()));
+        //   },
+        //   tooltip: 'Add',
+        //   child: const Icon(
+        //     Icons.add,
+        //     color: Colors.white,
+        //   ),
+        // ),
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
@@ -108,10 +109,15 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        AdminTaskModel _tasks =
-                                                            locationProvider.tasksList![index];
+                                                        PinPointsTaskModel
+                                                            _tasks =
+                                                            locationProvider
+                                                                    .tasksList![
+                                                                index];
                                                         return Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             Padding(
                                                               padding:
@@ -127,33 +133,47 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                                               TaskDetailsScreen(
                                                                         tasks:
                                                                             _tasks,
-                                                                        worker: _tasks
-                                                                            .worker,
-                                                                        waypoint: _tasks
-                                                                            .waypoint,
+                                                                        // worker: _tasks
+                                                                        //     .worker,
+                                                                        // waypoint: _tasks
+                                                                        //     .waypoint,
                                                                       ),
                                                                     ),
                                                                   );
                                                                 },
-                                                                child:  Row(
+                                                                child: Row(
                                                                   children: [
-                                                                    Text(
-                                                                        '${_tasks.waypoint!.name}',
-                                                                        maxLines:
-                                                                        2,
-                                                                        overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                        style: const TextStyle(color: Colors.black87, fontSize: 17)),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                            'Pinpoint ID : ${_tasks.pinpointId}',
+                                                                            style:
+                                                                                const TextStyle(color: Colors.black87, fontSize: 17)),
+                                                                        Text(
+                                                                            '${_tasks.user!.fullName}',
+                                                                            style:
+                                                                                const TextStyle(color: Colors.black45, fontSize: 15)),
+                                                                      ],
+                                                                    ),
                                                                     const Spacer(),
-                                                                    const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54
-                                                                    , size: 20)
+                                                                    const Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios_rounded,
+                                                                        color: Colors
+                                                                            .black54,
+                                                                        size:
+                                                                            20)
                                                                   ],
                                                                 ),
                                                               ),
                                                             ),
                                                             const Padding(
-                                                              padding: EdgeInsets.all(8.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
                                                               child: Divider(),
                                                             ),
                                                           ],

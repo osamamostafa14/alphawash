@@ -213,6 +213,7 @@
 // }
 import 'dart:async';
 
+import 'package:alphawash/provider/profile_provider.dart';
 import 'package:alphawash/provider/splash_provider.dart';
 import 'package:alphawash/provider/worker_provider.dart';
 import 'package:alphawash/utill/images.dart';
@@ -238,13 +239,12 @@ class _WorkerTasksPinpointsScreenState
     extends State<WorkerTasksPinpointsScreen> {
   GoogleMapController? _controller;
 
+  @override
   void initState() {
-    super.initState();
-    Timer(const Duration(seconds: 1), () {
-     setState(() {
-
-     });
+    Timer(const Duration(seconds: 2), () {
+      Provider.of<WorkerProvider>(context, listen: false).workerTasks;
     });
+    super.initState();
   }
 
   Future<void> launchMap(String latitude, String longitude) async {
@@ -266,10 +266,8 @@ class _WorkerTasksPinpointsScreenState
         widget.tasks!.wayPoint!.pinPoints!.isNotEmpty) {
       markers = await Future.wait(
           widget.tasks!.wayPoint!.pinPoints!.map((pinPoint) async {
-        LatLng point = LatLng(
-          double.parse(pinPoint.latitude!),
-          double.parse(pinPoint.longitude!),
-        );
+        LatLng point = LatLng(double.parse(pinPoint.latitude!),
+            double.parse(pinPoint.longitude!));
         // Provider.of<WorkerProvider>(context, listen: false)
         //     .getOldTasks(context, pinPointId!);
         // final oldTasks =
@@ -277,68 +275,53 @@ class _WorkerTasksPinpointsScreenState
         // final filteredTasks =
         //     oldTasks.where((task) => task.pinpointId == pinPoint.id).toList();
 
-        final icon = pinPoint.lastTask !=null
+        final icon = pinPoint.lastTask != null
             ? await TextOnImage(
                 image:
                     '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinPoint.lastTask!.image}',
               ).toBitmapDescriptor(
-                logicalSize: const Size(300 , 200),
-                imageSize: const Size(300, 200),
-              )
+                logicalSize: const Size(300, 200),
+                imageSize: const Size(300, 200))
             : await BitmapDescriptor.defaultMarker;
-
         return Marker(
-          markerId: MarkerId(pinPoint.id.toString()),
-          position: point,
-          icon: icon,
-          onTap: () {
-            print(pinPoint.id);
-            showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Column(
-                    children: [
+            markerId: MarkerId(pinPoint.id.toString()),
+            position: point,
+            icon: icon,
+            onTap: () {
+              print(pinPoint.id);
+              showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                        title: Column(children: [
                       TextButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (BuildContext context) =>
-                                  WorkerTaskPinpointsTabs(
-                                pinPoint: pinPoint,
-                                tasks: widget.tasks,
-                              ),
-                            ),
-                          );
-                          // Navigator.pop(context);
-                        },
-                        child: Text('Add new task ?',
-                            style: TextStyle(
-                                color: Theme.of(context).primaryColor,
-                                fontSize: 15)),
-                      ),
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (BuildContext context) =>
+                                        WorkerTaskPinpointsTabs(
+                                            pinPoint: pinPoint,
+                                            tasks: widget.tasks)));
+                            // Navigator.pop(context);
+                          },
+                          child: Text('Add new task ?',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 15))),
                       Divider(),
                       TextButton(
-                        onPressed: () {
-                          launchMap(pinPoint.latitude!, pinPoint.longitude!);
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Go to this pinpoint ?',
-                          style: TextStyle(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: 15,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
-            );
-          },
-        );
+                          onPressed: () {
+                            launchMap(pinPoint.latitude!, pinPoint.longitude!);
+                            Navigator.pop(context);
+                          },
+                          child: Text('Go to this pinpoint ?',
+                              style: TextStyle(
+                                  color: Theme.of(context).primaryColor,
+                                  fontSize: 15)))
+                    ]));
+                  });
+            });
       }));
     }
 
@@ -348,99 +331,77 @@ class _WorkerTasksPinpointsScreenState
   @override
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
-      builder: (context, locationProvider, child) {
-        return Scaffold(
+        builder: (context, locationProvider, child) {
+      return Scaffold(
           appBar: AppBar(
-            title: Text('Worker Pins'),
-            backgroundColor: Theme.of(context).primaryColor,
-            elevation: 0,
-            centerTitle: true,
-            actions: [
-              InkWell(
-                onTap: () {
-                  locationProvider.setSatelliteMode();
-                },
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                        locationProvider.satelliteMode
-                            ? 'Normal Mode'
-                            : 'Satellite Mode',
-                        style: TextStyle(fontSize: 14)),
-                  ),
-                ),
-              )
-            ],
-          ),
+              title: Text('Worker Pins'),
+              backgroundColor: Theme.of(context).primaryColor,
+              elevation: 0,
+              centerTitle: true,
+              actions: [
+                InkWell(
+                    onTap: () => locationProvider.setSatelliteMode(),
+                    child: Center(
+                        child: Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: Text(
+                                locationProvider.satelliteMode
+                                    ? 'Normal Mode'
+                                    : 'Satellite Mode',
+                                style: TextStyle(fontSize: 14)))))
+              ]),
           body: Center(
-            child: Container(
-              width: 1170,
-              child: FutureBuilder(
-                future: _createMarkers(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                        child: CircularProgressIndicator(
-                            valueColor: AlwaysStoppedAnimation<Color>(
-                                Theme.of(context).primaryColor)));
-                  } else if (snapshot.hasError) {
-                    print("Error: ${snapshot.error}");
-                    return Text('Error: ${snapshot.error}');
-                  } else {
-                    List<Marker> markers = snapshot.data as List<Marker>;
-                    return GoogleMap(
-                      mapType: locationProvider.satelliteMode
-                          ? MapType.satellite
-                          : MapType.normal,
-                      initialCameraPosition: CameraPosition(
-                        target: markers.isNotEmpty
-                            ? markers[0].position
-                            : LatLng(0, 0),
-                        zoom: 15,
-                      ),
-                      markers: Set<Marker>.of(markers),
-                      onMapCreated: (GoogleMapController controller) {
-                        _controller = controller;
-                      },
-                    );
-                  }
-                },
-              ),
-            ),
-          ),
-        );
-      },
-    );
+              child: Container(
+                  width: 1170,
+                  child: FutureBuilder(
+                      future: _createMarkers(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return Center(
+                              child: CircularProgressIndicator(
+                                  valueColor: AlwaysStoppedAnimation<Color>(
+                                      Theme.of(context).primaryColor)));
+                        } else if (snapshot.hasError) {
+                          print("Error: ${snapshot.error}");
+                          return Text('Error: ${snapshot.error}');
+                        } else {
+                          List<Marker> markers = snapshot.data as List<Marker>;
+                          return GoogleMap(
+                              mapType: locationProvider.satelliteMode
+                                  ? MapType.satellite
+                                  : MapType.normal,
+                              initialCameraPosition: CameraPosition(
+                                  target: markers.isNotEmpty
+                                      ? markers[0].position
+                                      : LatLng(0, 0),
+                                  zoom: 15),
+                              markers: Set<Marker>.of(markers),
+                              onMapCreated: (GoogleMapController controller) =>
+                                  _controller = controller);
+                        }
+                      }))));
+    });
   }
 }
 
 class TextOnImage extends StatelessWidget {
-  const TextOnImage({
-    Key? key,
-    @required this.image,
-  }) : super(key: key);
+  const TextOnImage({Key? key, @required this.image}) : super(key: key);
 
   final String? image;
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ClipRRect(
+    return Column(children: [
+      ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: FadeInImage.assetNetwork(
-          height: 120 , width: 110,
-            placeholder: Images.placeholder,
-            image: image!,
-            fit: BoxFit.cover,
-          ),
-        ),
-        Icon(
-          Icons.location_on,
-          color: Colors.red,size:80
-        )
-      ],
-    );
+              height: 120,
+              width: 110,
+              placeholder: Images.placeholder,
+              image: image!,
+              fit: BoxFit.cover)),
+      Icon(Icons.location_on, color: Colors.red, size: 80)
+    ]);
   }
 }

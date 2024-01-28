@@ -63,13 +63,13 @@ class TaskPaginator {
   int? _totalSize;
   String? _limit;
   String? _offset;
-  List<AdminTaskModel>? _tasks;
+  List<PinPointsTaskModel>? _tasks;
 
   TaskPaginator(
       {int? totalSize,
       String? limit,
       String? offset,
-      List<AdminTaskModel>? tasks}) {
+      List<PinPointsTaskModel>? tasks}) {
     this._totalSize = totalSize;
     this._limit = limit;
     this._offset = offset;
@@ -79,7 +79,7 @@ class TaskPaginator {
   int? get totalSize => _totalSize;
   String? get limit => _limit;
   String? get offset => _offset;
-  List<AdminTaskModel>? get tasks => _tasks;
+  List<PinPointsTaskModel>? get tasks => _tasks;
 
   TaskPaginator.fromJson(Map<String?, dynamic> json) {
     _totalSize = json['total_size'];
@@ -89,7 +89,7 @@ class TaskPaginator {
     if (json['tasks'] != null) {
       _tasks = [];
       json['tasks'].forEach((v) {
-        _tasks!.add(AdminTaskModel.fromJson(v));
+        _tasks!.add(PinPointsTaskModel.fromJson(v));
       });
     }
   }

@@ -6,13 +6,14 @@ class CustomButton extends StatelessWidget {
   final String? btnTxt;
   final Color? backgroundColor;
   final Color? textColor;
-  CustomButton({this.onTap, @required this.btnTxt, this.backgroundColor, this.textColor});
+  final double? height;
+  CustomButton({this.onTap, @required this.btnTxt, this.backgroundColor, this.textColor, this.height});
 
   @override
   Widget build(BuildContext context) {
     final ButtonStyle flatButtonStyle = TextButton.styleFrom(
       backgroundColor: onTap == null ? ColorResources.getGreyColor(context) : backgroundColor == null ? Theme.of(context).primaryColor : backgroundColor,
-      minimumSize: Size(MediaQuery.of(context).size.width, 50),
+      minimumSize: Size(MediaQuery.of(context).size.width, height !=null?height!: 50),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),

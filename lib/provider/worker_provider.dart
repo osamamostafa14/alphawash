@@ -59,13 +59,14 @@ class WorkerProvider with ChangeNotifier {
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-      _reminderLoading = false;
-      notifyListeners();
+
       _reminder = [];
       apiResponse.response!.data.forEach((item) {
         ReminderModel reminder = ReminderModel.fromJson(item);
         _reminder.add(reminder);
       });
+      _reminderLoading = false;
+      notifyListeners();
     } else {
       _reminderLoading = false;
       notifyListeners();
@@ -541,6 +542,34 @@ class WorkerProvider with ChangeNotifier {
       _workerPermission!.editPinpoints = value;
     } else if (type == "tasks") {
       _workerPermission!.tasks = value;
+    }
+    notifyListeners();
+  }
+  bool _workerOldAdminTasksListLoading = false;
+  bool get workerOldAdminTasksListLoading => _workerOldAdminTasksListLoading;
+
+  List<PinPointsTaskModel> _adminTasks = [];
+  List<PinPointsTaskModel> get adminTasks => _adminTasks;
+
+  Future<void> getAdminTasksList(BuildContext context, int pinpointId) async {
+    print('pinpointId=> ${pinpointId}');
+    _workerOldAdminTasksListLoading = true;
+    notifyListeners();
+    ApiResponse apiResponse = await workerRepo!.getAdminTasksList(pinpointId);
+    if (apiResponse.response != null &&
+        apiResponse.response!.statusCode == 200) {
+      _workerOldAdminTasksListLoading = false;
+      notifyListeners();
+      _adminTasks = [];
+      apiResponse.response!.data.forEach((item) {
+        PinPointsTaskModel task = PinPointsTaskModel.fromJson(item);
+        _adminTasks.add(task);
+      });
+    } else {
+      _workerOldAdminTasksListLoading = false;
+      notifyListeners();
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(apiResponse.error.toString())));
     }
     notifyListeners();
   }

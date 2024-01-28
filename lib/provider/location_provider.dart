@@ -7,10 +7,13 @@ import 'package:alphawash/data/model/response/response_model.dart';
 import 'package:alphawash/data/model/response/user_area_model.dart';
 import 'package:alphawash/data/model/response/waypoint_model.dart';
 import 'package:alphawash/data/repository/location_repo.dart';
+import 'package:alphawash/provider/splash_provider.dart';
 import 'package:alphawash/utill/app_constants.dart';
 import 'package:alphawash/view/base/border_button.dart';
 import 'package:alphawash/view/screens/users/admin_tasks/admin_add_task_screen.dart';
+import 'package:alphawash/view/screens/waypoints/pinpoint_info_bottom_sheet.dart';
 import 'package:alphawash/view/screens/waypoints/waypoints_screen.dart';
+import 'package:alphawash/view/screens/waypoints/worker-tasks/worker_task_details_pinpoints_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
@@ -18,10 +21,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:http/http.dart' as http;
+import 'package:widget_to_marker/widget_to_marker.dart';
 
 import '../data/model/response/pin_point_model.dart';
 import '../data/model/response/user_info_model.dart';
@@ -151,6 +156,9 @@ class LocationProvider with ChangeNotifier {
   bool _satelliteMode = false;
   bool get satelliteMode => _satelliteMode;
 
+  bool _areaChanged = false;
+  bool get areaChanged => _areaChanged;
+
   void setSatelliteMode() {
     _satelliteMode == false ? _satelliteMode = true : _satelliteMode = false;
     notifyListeners();
@@ -162,7 +170,6 @@ class LocationProvider with ChangeNotifier {
   }
 
   Set<Marker> _markers = {};
-
   Set<Marker> get markers => _markers;
 
   void resetWaypointInfo() {
@@ -184,16 +191,28 @@ class LocationProvider with ChangeNotifier {
   //   notifyListeners();
   // }
 
-  void addMarker(BuildContext context, LatLng location, bool updadeMode, [int? pinpointID]) {
-    MarkerId markerId = pinpointID!=null? MarkerId(pinpointID.toString()): MarkerId(location.toString());
+  void addMarker(BuildContext context, LatLng location, bool updateMode,
+      [PinPointModel? pinpoint]) async {
+    final icon = pinpoint!.lastTask != null
+        ? await TextOnImage(
+            image:
+                '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
+          ).toBitmapDescriptor(
+            logicalSize: const Size(300, 200),
+            imageSize: const Size(300, 200),
+          )
+        : await BitmapDescriptor.defaultMarker;
+    MarkerId markerId = pinpoint != null
+        ? MarkerId(pinpoint.id.toString())
+        : MarkerId(location.toString());
     final newMarker = Marker(
         markerId: markerId,
         position: location,
+        icon: icon,
         infoWindow: InfoWindow(title: ''),
-        icon: BitmapDescriptor.defaultMarker,
         onTap: () {
           print(_tappedPoints);
-          if(updadeMode == false){
+          if (updateMode == false) {
             showDialog(
               context: context,
               builder: (context) {
@@ -220,7 +239,7 @@ class LocationProvider with ChangeNotifier {
                           BorderButton(
                             onTap: () {
                               _markers.removeWhere(
-                                      (marker) => marker.markerId == markerId);
+                                  (marker) => marker.markerId == markerId);
                               notifyListeners();
                               Navigator.pop(context);
                             },
@@ -234,17 +253,29 @@ class LocationProvider with ChangeNotifier {
                 );
               },
             );
+          } else {
+            showModalBottomSheet(
+              context: context,
+              isScrollControlled: true,
+              backgroundColor: Colors.transparent,
+              builder: (con) {
+                return PinpointInfoBottomSheet(
+                  pinPointModel: pinpoint!,
+                );
+              },
+            );
           }
-
         });
 
     _markers.add(newMarker);
     notifyListeners();
   }
 
-  void removeMarker(markerId){
-    _markers.removeWhere(
-            (marker) => marker.markerId == markerId);
+  void removeMarker(String id) {
+    MarkerId markerId = MarkerId(id.toString());
+
+    _markers.removeWhere((marker) => marker.markerId == markerId);
+    notifyListeners();
   }
 
   // Future<void> initAddPinPoints(
@@ -269,33 +300,47 @@ class LocationProvider with ChangeNotifier {
           context,
           LatLng(double.parse(pinPoint.latitude!),
               double.parse(pinPoint.longitude!)),
-      updateMode,
-          pinPoint.id
+          updateMode,
+          pinPoint);
+    });
+    notifyListeners();
+  }
+
+  Future<void> initNewPinPoints(BuildContext context, bool updateMode) async {
+    // for edit waypoint screen
+
+    Set<Marker> _oldMarkers = _markers;
+    _markers = {};
+    _oldMarkers.forEach((marker) {
+      addMarker(
+        context,
+        LatLng(marker.position.latitude, marker.position.longitude),
+        updateMode,
       );
     });
     notifyListeners();
   }
 
-  void deleteMarkerOnly(BuildContext context, MarkerId markerId) {
-    _markers.removeWhere((marker) => marker.markerId == markerId);
-    notifyListeners();
-  }
+  // void deleteMarkerOnly(BuildContext context, MarkerId markerId) {
+  //   _markers.removeWhere((marker) => marker.markerId == markerId);
+  //   notifyListeners();
+  // }
 
-  void addMarkerOnly(BuildContext context, LatLng location) {
-    //_tappedPoints = [];
-    _tappedPoints.add(location);
-    print('tappedPoints=> ${_tappedPoints}');
-    final markerId = MarkerId(location.toString());
-    final newMarker = Marker(
-      markerId: markerId,
-      position: location,
-      infoWindow: InfoWindow(title: ''),
-      icon: BitmapDescriptor.defaultMarker,
-    );
-
-    _markers.add(newMarker);
-    notifyListeners();
-  }
+  // void addMarkerOnly(BuildContext context, LatLng location) {
+  //   //_tappedPoints = [];
+  //   _tappedPoints.add(location);
+  //   print('tappedPoints=> ${_tappedPoints}');
+  //   final markerId = MarkerId(location.toString());
+  //   final newMarker = Marker(
+  //     markerId: markerId,
+  //     position: location,
+  //     infoWindow: InfoWindow(title: ''),
+  //     icon: BitmapDescriptor.defaultMarker,
+  //   );
+  //
+  //   _markers.add(newMarker);
+  //   notifyListeners();
+  // }
 
   // void addMarkerTest(BuildContext context, LatLng location) {
   //   // //_tappedPoints = [];
@@ -370,7 +415,6 @@ class LocationProvider with ChangeNotifier {
     _searchedArea = area;
     notifyListeners();
   }
-
 
   void updateUserAreasIds(int value) {
     if (_userAreasIds.contains(value)) {
@@ -716,7 +760,10 @@ class LocationProvider with ChangeNotifier {
   }
 
   Future<void> getAreasList(BuildContext context) async {
-    _areasListLoading = true;
+    if (_areasList == null) {
+      _areasListLoading = true;
+    }
+    _areaChanged = true;
     notifyListeners();
     ApiResponse apiResponse = await locationRepo!.getAreasList();
 
@@ -804,7 +851,6 @@ class LocationProvider with ChangeNotifier {
   /// waypoints
   List<WaypointModel> _waypoints = [];
   List<WaypointModel> get waypoints => _waypoints;
-
 
   bool _waypointsListLoading = false;
   bool get waypointsListLoading => _waypointsListLoading;
@@ -1000,9 +1046,9 @@ class LocationProvider with ChangeNotifier {
 
   bool get bottomTasksListLoading => _bottomTasksListLoading;
 
-  List<AdminTaskModel>? _tasksList;
+  List<PinPointsTaskModel>? _tasksList;
 
-  List<AdminTaskModel>? get tasksList => _tasksList;
+  List<PinPointsTaskModel>? get tasksList => _tasksList;
 
   String? _tasksOffset;
 
@@ -1157,6 +1203,12 @@ class LocationProvider with ChangeNotifier {
     notifyListeners();
   }
 
+  void updateAreaChangedValue(bool value) {
+    _areaChanged = value;
+    _selectedDay = 'Select the day';
+    notifyListeners();
+  }
+
   late StreamSubscription<Position> _positionStreamSubscription;
   CollectionReference<Map<String, dynamic>>? _workerLocations;
 
@@ -1201,14 +1253,12 @@ class LocationProvider with ChangeNotifier {
     _positionStreamSubscription.cancel();
   }
 
-
-
   bool _showFilteredWaypoints = false;
-
   bool get showFilteredWaypoints => _showFilteredWaypoints;
 
-  void changeFilteredWaypoints() {
-    _showFilteredWaypoints = !_showFilteredWaypoints;
+  void changeFilteredWaypoints(bool value) {
+    _showFilteredWaypoints = value;
     notifyListeners();
   }
+
 }
