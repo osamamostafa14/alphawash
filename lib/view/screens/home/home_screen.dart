@@ -331,6 +331,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                   text: 'Track Workers',
                                 ),
                               ),
+
+                            ],
+                          ),
+                          const SizedBox(height: 18),
+                          Row(
+                            children: [
                               Expanded(
                                 child: HomeButton(
                                   onTap: () {
@@ -343,12 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   icon: Icons.task,
                                   text: 'Tasks',
                                 ),
-                              ),
-                            ],
-                          ),
-                          const SizedBox(height: 18),
-                          Row(
-                            children: [
+                              ),                              const SizedBox(width: 18),
 
                               Expanded(
                                 child: HomeButton(

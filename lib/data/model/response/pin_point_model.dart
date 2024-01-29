@@ -95,7 +95,8 @@ class PinPointsTaskModel {
   String? _image;
   int? _userId;
   int? _pinpointId;
-  UserInfoModel?  _user;
+  String? _dayOfTask;
+  UserInfoModel? _user;
 
   PinPointsTaskModel({
     int? id,
@@ -104,11 +105,13 @@ class PinPointsTaskModel {
     int? userId,
     int? pinpointId,
     UserInfoModel? user,
+    String? dayOfTask,
   }) {
     this._id = id;
     this._details = details;
     this._image = image;
     this._userId = userId;
+    this._dayOfTask = dayOfTask;
     this._pinpointId = pinpointId;
     this._user = user;
   }
@@ -118,6 +121,7 @@ class PinPointsTaskModel {
   String? get image => _image;
   int? get userId => _userId;
   int? get pinpointId => _pinpointId;
+  String? get dayOfTask => _dayOfTask;
   UserInfoModel? get user => _user;
 
   PinPointsTaskModel.fromJson(Map<String, dynamic> json) {
@@ -126,6 +130,11 @@ class PinPointsTaskModel {
     _image = json['image'];
     _userId = json['user_id'];
     _pinpointId = json['pinpoint_id'];
+    _dayOfTask = json['day_of_task'];
+
+    if (_dayOfTask != null) {
+      _dayOfTask = _dayOfTask!.toLowerCase();
+    }
     _user = json['user'] != null ? UserInfoModel.fromJson(json['user']) : null;
   }
 
@@ -135,9 +144,62 @@ class PinPointsTaskModel {
       'details': _details,
       'image': _image,
       'user_id': _userId,
+      'day_of_task': _dayOfTask,
       'pinpoint_id': _pinpointId,
     };
     return data;
   }
 }
 
+// class PinPointsAdminTaskModel {
+//   int? _id;
+//   String? _details;
+//   String? _image;
+//   int? _userId;
+//   int? _pinpointId;
+//   String? _dayOfTask;
+//
+//   PinPointsAdminTaskModel({
+//     int? id,
+//     String? details,
+//     String? image,
+//     int? userId,
+//     int? pinpointId,
+//     String? dayOfTask,
+//   }) {
+//     this._id = id;
+//     this._details = details;
+//     this._image = image;
+//     this._userId = userId;
+//     this._pinpointId = pinpointId;
+//     this._dayOfTask = dayOfTask;
+//   }
+//
+//   int? get id => _id;
+//   String? get details => _details;
+//   String? get image => _image;
+//   String? get dayOfTask => _dayOfTask;
+//   int? get userId => _userId;
+//   int? get pinpointId => _pinpointId;
+//
+//   PinPointsAdminTaskModel.fromJson(Map<String, dynamic> json) {
+//     _id = json['id'];
+//     _details = json['details'];
+//     _image = json['image'];
+//     _userId = json['user_id'];
+//     _pinpointId = json['pinpoint_id'];
+//     _dayOfTask = json['day_of_task'];
+//   }
+//
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = {
+//       'id': _id,
+//       'details': _details,
+//       'image': _image,
+//       'user_id': _userId,
+//       'pinpoint_id': _pinpointId,
+//       'day_of_task': _dayOfTask,
+//     };
+//     return data;
+//   }
+// }

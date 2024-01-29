@@ -102,173 +102,344 @@ class _EditPinPointTasksDetailsScreenState
             icon: Icon(Icons.arrow_back, color: Colors.white),
           ),
           centerTitle: true,
-          title: Text('Task Details',
-              style: TextStyle(color: Colors.white)),
+          title: Text('Task Details', style: TextStyle(color: Colors.white)),
         ),
         body:
             Consumer<WorkerProvider>(builder: (context, workerProvider, child) {
-              bool hasPermissions = false;
-              if(Provider.of<ProfileProvider>(context).userInfoModel!.userType == 'admin'){
+          bool hasPermissions = false;
+          if (Provider.of<ProfileProvider>(context).userInfoModel!.userType ==
+              'admin') {
+            hasPermissions = true;
+          } else {
+            if (Provider.of<ProfileProvider>(context , listen: false)
+                    .userInfoModel!
+                    .workerPermissions !=
+                null) {
+              if (Provider.of<ProfileProvider>(context , listen: false)
+                      .userInfoModel!
+                      .workerPermissions!
+                      .showPinpoints ==
+                  1) {
                 hasPermissions = true;
+              } else {
+                hasPermissions = false;
               }
-              else
-              {
-                if(Provider.of<ProfileProvider>(context).userInfoModel!.workerPermissions!=null){
-                  if(Provider.of<ProfileProvider>(context).userInfoModel!.workerPermissions!.showPinpoints == 1){
-                    hasPermissions = true;
-                  }else{
-                    hasPermissions = false;
-                  }
-                }
-              }
-          return
-            hasPermissions? Center(
-                  child: Scrollbar(
-                  child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
-                      physics: const BouncingScrollPhysics(),
-                      child: Center(
-                          child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                            // Text('Your Image Task : ',
-                            //     style: TextStyle(
-                            //         color: Theme.of(context)
-                            //             .textTheme
-                            //             .headline1!
-                            //             .color,
-                            //         fontSize: 15)),
-                            const SizedBox(
-                                height: Dimensions.PADDING_SIZE_SMALL),
-                            InkWell(
-                                borderRadius: BorderRadius.circular(10),
-                                onTap: () => _choose(),
-                                child: file != null
-                                    ? ClipRRect(
-                                        borderRadius: BorderRadius.circular(10),
-                                        child: Image.file(file!,
-                                            fit: BoxFit.cover))
-                                    : data != null
-                                        ? ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(data!.path,
-                                                fit: BoxFit.cover))
-                                        : ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(
-                                                '${Provider.of<SplashProvider>(
-                                                  context,
-                                                ).baseUrls!.taskImageUrl}/${widget.imageUrl}',
-                                                width: double.infinity,
-                                                height: 300,
-                                                fit: BoxFit.cover))),
-                            const SizedBox(
-                                height: Dimensions.PADDING_SIZE_LARGE),
-                            CustomTextField(
-                                hintText: 'Details of task',
-                                isShowBorder: true,
-                                maxLines: 3,
-                                inputAction: TextInputAction.done,
-                                inputType: TextInputType.text,
-                                controller: _detailsController),
-                            SizedBox(
-                              height: 20,
-                            ),
-                                Provider.of<ProfileProvider>(context, listen: false)
-                                    .userInfoModel!.workerPermissions!.editPinpoints == 0?
-                                     Align(
-                                       alignment: Alignment.center,
-                                       child: Text('You don\'t have permissions to edit pinpoint task!', style: TextStyle(
-                                         color: Colors.black87, fontWeight: FontWeight.w500, fontSize: 14
-                                       )),
-                                     ):
-                            workerProvider.isLoading
-                                ? Center(
-                                    child: CircularProgressIndicator(
-                                        valueColor: AlwaysStoppedAnimation<
-                                                Color>(
-                                            Theme.of(context).primaryColor)))
-                                : MaterialButton(
-                                    minWidth: double.infinity,
-                                    height: 50,
-                                    color: Theme.of(context).primaryColor,
-                                    onPressed: () {
-                                      _checkDistanceAndSaveTask().then((value) {
-                                        workerProvider.getOldTasks(context, widget.task!.pinpointId!);
-                                      });
-                                    },
-                                    child: Text(
-                                      "Update",
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius:
-                                            BorderRadius.circular(10)),
-                                  )
-                          ]))),
-                ))
-              : Center(
-                  child: Scrollbar(
-                      child: SingleChildScrollView(
-                          padding: const EdgeInsets.all(
-                              Dimensions.PADDING_SIZE_LARGE),
-                          physics: const BouncingScrollPhysics(),
-                          child: Center(
-                              child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                Text('Task Image:',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color,
-                                        fontSize: 15)),
-                                const SizedBox(
-                                    height: Dimensions.PADDING_SIZE_SMALL),
-                                ClipRRect(
+            }
+          }
+          return Center(
+              child: Scrollbar(
+                child: SingleChildScrollView(
+                    padding:
+                    const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+                    physics: const BouncingScrollPhysics(),
+                    child: Center(
+                        child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // Text('Your Image Task : ',
+                              //     style: TextStyle(
+                              //         color: Theme.of(context)
+                              //             .textTheme
+                              //             .headline1!
+                              //             .color,
+                              //         fontSize: 15)),
+                              const SizedBox(
+                                  height: Dimensions.PADDING_SIZE_SMALL),
+                              InkWell(
                                   borderRadius: BorderRadius.circular(10),
-                                  child: Image.network(
-                                      '${Provider.of<SplashProvider>(
-                                        context,
-                                      ).baseUrls!.taskImageUrl}/${widget.imageUrl}',
-                                      width: double.infinity,
-                                      height: 300,
-                                      fit: BoxFit.cover),
-                                ),
-                                const SizedBox(
-                                    height: Dimensions.PADDING_SIZE_LARGE),
-                                Text('Task details:',
-                                    style: TextStyle(
-                                        color: Theme.of(context)
-                                            .textTheme
-                                            .headline1!
-                                            .color,
-                                        fontSize: 15)),
-                                const SizedBox(
-                                    height: Dimensions.PADDING_SIZE_SMALL),
-                                Container(
-                                  width: double.infinity,
-                                  decoration: BoxDecoration(
+                                  onTap: () {
+                                    Provider.of<ProfileProvider>(context,
+                                        listen: false)
+                                        .userInfoModel!
+                                        .workerPermissions
+                                        ?.editPinpoints ==
+                                        0 ||
+                                        Provider.of<ProfileProvider>(context , listen: false)
+                                            .userInfoModel!
+                                            .userType ==
+                                            'admin'
+                                        ? print("no permission")
+                                        : _choose();
+                                  },
+                                  child: file != null
+                                      ? ClipRRect(
                                       borderRadius: BorderRadius.circular(10),
-                                      border: Border.all(color: Colors.black)),
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(15.0),
-                                    child: Text(
-                                      _detailsController!.text,textAlign: TextAlign.justify,
-                                      style: const TextStyle(fontSize: 14),
-                                    ),
-                                  ),
+                                      child: Image.file(file!,
+                                          fit: BoxFit.cover))
+                                      : data != null
+                                      ? ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                      child: Image.network(data!.path,
+                                          fit: BoxFit.cover))
+                                      : ClipRRect(
+                                      borderRadius:
+                                      BorderRadius.circular(10),
+                                      child: Image.network(
+                                          '${Provider.of<SplashProvider>(
+                                            context,
+                                          ).baseUrls!.taskImageUrl}/${widget.imageUrl}',
+                                          width: double.infinity,
+                                          height: 300,
+                                          fit: BoxFit.cover))),
+                              const SizedBox(
+                                  height: Dimensions.PADDING_SIZE_LARGE),
+                              CustomTextField(
+                                  hintText: 'Details of task',
+                                  isShowBorder: true,
+                                  maxLines: 3,
+                                  dontEdit: Provider.of<ProfileProvider>(context,
+                                      listen: false)
+                                      .userInfoModel!
+                                      .workerPermissions
+                                      ?.editPinpoints ==
+                                      0 ||
+                                      Provider.of<ProfileProvider>(context  , listen: false)
+                                          .userInfoModel!
+                                          .userType ==
+                                          'admin'
+                                      ? true
+                                      : false,
+                                  inputAction: TextInputAction.done,
+                                  inputType: TextInputType.text,
+                                  controller: _detailsController),
+                              SizedBox(
+                                height: 20,
+                              ),
+                              Provider.of<ProfileProvider>(context, listen: false)
+                                  .userInfoModel!
+                                  .workerPermissions
+                                  ?.editPinpoints ==
+                                  0 ||
+                                  Provider.of<ProfileProvider>(context  ,listen: false )
+                                      .userInfoModel!
+                                      .userType ==
+                                      'admin'
+                                  ? Align(
+                                alignment: Alignment.center,
+                                child: Text(
+                                    'You don\'t have permissions to edit pinpoint task!',
+                                    style: TextStyle(
+                                        color: Colors.black87,
+                                        fontWeight: FontWeight.w500,
+                                        fontSize: 14)),
+                              )
+                                  : workerProvider.isLoading
+                                  ? Center(
+                                  child: CircularProgressIndicator(
+                                      valueColor:
+                                      AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context)
+                                              .primaryColor)))
+                                  : MaterialButton(
+                                minWidth: double.infinity,
+                                height: 50,
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () {
+                                  _checkDistanceAndSaveTask()
+                                      .then((value) {
+                                    workerProvider.getOldTasks(context,
+                                        widget.task!.pinpointId!);
+                                  });
+                                },
+                                child: Text(
+                                  "Update",
+                                  style: TextStyle(color: Colors.white),
                                 ),
-                                const SizedBox(
-                                  height: 20,
-                                ),
-                              ])))));
+                                shape: RoundedRectangleBorder(
+                                    borderRadius:
+                                    BorderRadius.circular(10)),
+                              )
+                            ]))),
+              ));
+          // return hasPermissions == true
+          //     ? Center(
+          //         child: Scrollbar(
+          //         child: SingleChildScrollView(
+          //             padding:
+          //                 const EdgeInsets.all(Dimensions.PADDING_SIZE_LARGE),
+          //             physics: const BouncingScrollPhysics(),
+          //             child: Center(
+          //                 child: Column(
+          //                     mainAxisAlignment: MainAxisAlignment.center,
+          //                     crossAxisAlignment: CrossAxisAlignment.start,
+          //                     children: [
+          //                   // Text('Your Image Task : ',
+          //                   //     style: TextStyle(
+          //                   //         color: Theme.of(context)
+          //                   //             .textTheme
+          //                   //             .headline1!
+          //                   //             .color,
+          //                   //         fontSize: 15)),
+          //                   const SizedBox(
+          //                       height: Dimensions.PADDING_SIZE_SMALL),
+          //                   InkWell(
+          //                       borderRadius: BorderRadius.circular(10),
+          //                       onTap: () {
+          //                         Provider.of<ProfileProvider>(context,
+          //                                             listen: false)
+          //                                         .userInfoModel!
+          //                                         .workerPermissions
+          //                                         ?.editPinpoints ==
+          //                                     0 ||
+          //                                 Provider.of<ProfileProvider>(context)
+          //                                         .userInfoModel!
+          //                                         .userType ==
+          //                                     'admin'
+          //                             ? print("no permission")
+          //                             : _choose();
+          //                       },
+          //                       child: file != null
+          //                           ? ClipRRect(
+          //                               borderRadius: BorderRadius.circular(10),
+          //                               child: Image.file(file!,
+          //                                   fit: BoxFit.cover))
+          //                           : data != null
+          //                               ? ClipRRect(
+          //                                   borderRadius:
+          //                                       BorderRadius.circular(10),
+          //                                   child: Image.network(data!.path,
+          //                                       fit: BoxFit.cover))
+          //                               : ClipRRect(
+          //                                   borderRadius:
+          //                                       BorderRadius.circular(10),
+          //                                   child: Image.network(
+          //                                       '${Provider.of<SplashProvider>(
+          //                                         context,
+          //                                       ).baseUrls!.taskImageUrl}/${widget.imageUrl}',
+          //                                       width: double.infinity,
+          //                                       height: 300,
+          //                                       fit: BoxFit.cover))),
+          //                   const SizedBox(
+          //                       height: Dimensions.PADDING_SIZE_LARGE),
+          //                   CustomTextField(
+          //                       hintText: 'Details of task',
+          //                       isShowBorder: true,
+          //                       maxLines: 3,
+          //                       dontEdit: Provider.of<ProfileProvider>(context,
+          //                                           listen: false)
+          //                                       .userInfoModel!
+          //                                       .workerPermissions
+          //                                       ?.editPinpoints ==
+          //                                   0 ||
+          //                               Provider.of<ProfileProvider>(context)
+          //                                       .userInfoModel!
+          //                                       .userType ==
+          //                                   'admin'
+          //                           ? true
+          //                           : false,
+          //                       inputAction: TextInputAction.done,
+          //                       inputType: TextInputType.text,
+          //                       controller: _detailsController),
+          //                   SizedBox(
+          //                     height: 20,
+          //                   ),
+          //                   Provider.of<ProfileProvider>(context, listen: false)
+          //                                   .userInfoModel!
+          //                                   .workerPermissions
+          //                                   ?.editPinpoints ==
+          //                               0 ||
+          //                           Provider.of<ProfileProvider>(context)
+          //                                   .userInfoModel!
+          //                                   .userType ==
+          //                               'admin'
+          //                       ? Align(
+          //                           alignment: Alignment.center,
+          //                           child: Text(
+          //                               'You don\'t have permissions to edit pinpoint task!',
+          //                               style: TextStyle(
+          //                                   color: Colors.black87,
+          //                                   fontWeight: FontWeight.w500,
+          //                                   fontSize: 14)),
+          //                         )
+          //                       : workerProvider.isLoading
+          //                           ? Center(
+          //                               child: CircularProgressIndicator(
+          //                                   valueColor:
+          //                                       AlwaysStoppedAnimation<Color>(
+          //                                           Theme.of(context)
+          //                                               .primaryColor)))
+          //                           : MaterialButton(
+          //                               minWidth: double.infinity,
+          //                               height: 50,
+          //                               color: Theme.of(context).primaryColor,
+          //                               onPressed: () {
+          //                                 _checkDistanceAndSaveTask()
+          //                                     .then((value) {
+          //                                   workerProvider.getOldTasks(context,
+          //                                       widget.task!.pinpointId!);
+          //                                 });
+          //                               },
+          //                               child: Text(
+          //                                 "Update",
+          //                                 style: TextStyle(color: Colors.white),
+          //                               ),
+          //                               shape: RoundedRectangleBorder(
+          //                                   borderRadius:
+          //                                       BorderRadius.circular(10)),
+          //                             )
+          //                 ]))),
+          //       ))
+          //     : Center(
+          //         child: Scrollbar(
+          //             child: SingleChildScrollView(
+          //                 padding: const EdgeInsets.all(
+          //                     Dimensions.PADDING_SIZE_LARGE),
+          //                 physics: const BouncingScrollPhysics(),
+          //                 child: Center(
+          //                     child: Column(
+          //                         mainAxisAlignment: MainAxisAlignment.center,
+          //                         crossAxisAlignment: CrossAxisAlignment.start,
+          //                         children: [
+          //                       Text('Task Image:',
+          //                           style: TextStyle(
+          //                               color: Theme.of(context)
+          //                                   .textTheme
+          //                                   .headline1!
+          //                                   .color,
+          //                               fontSize: 15)),
+          //                       const SizedBox(
+          //                           height: Dimensions.PADDING_SIZE_SMALL),
+          //                       ClipRRect(
+          //                         borderRadius: BorderRadius.circular(10),
+          //                         child: Image.network(
+          //                             '${Provider.of<SplashProvider>(
+          //                               context,
+          //                             ).baseUrls!.taskImageUrl}/${widget.imageUrl}',
+          //                             width: double.infinity,
+          //                             height: 300,
+          //                             fit: BoxFit.cover),
+          //                       ),
+          //                       const SizedBox(
+          //                           height: Dimensions.PADDING_SIZE_LARGE),
+          //                       Text('Task details:',
+          //                           style: TextStyle(
+          //                               color: Theme.of(context)
+          //                                   .textTheme
+          //                                   .headline1!
+          //                                   .color,
+          //                               fontSize: 15)),
+          //                       const SizedBox(
+          //                           height: Dimensions.PADDING_SIZE_SMALL),
+          //                       Container(
+          //                         width: double.infinity,
+          //                         decoration: BoxDecoration(
+          //                             borderRadius: BorderRadius.circular(10),
+          //                             border: Border.all(color: Colors.black)),
+          //                         child: Padding(
+          //                           padding: const EdgeInsets.all(15.0),
+          //                           child: Text(
+          //                             _detailsController!.text,
+          //                             textAlign: TextAlign.justify,
+          //                             style: const TextStyle(fontSize: 14),
+          //                           ),
+          //                         ),
+          //                       ),
+          //                       const SizedBox(
+          //                         height: 20,
+          //                       ),
+          //                     ])))));
         }));
   }
 }

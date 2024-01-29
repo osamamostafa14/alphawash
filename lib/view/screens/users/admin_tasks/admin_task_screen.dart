@@ -36,20 +36,20 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
   Widget build(BuildContext? context) {
     return Scaffold(
         backgroundColor: Theme.of(context!).scaffoldBackgroundColor,
-        floatingActionButton: FloatingActionButton(
-          backgroundColor: Theme.of(context).primaryColor,
-          onPressed: () {
-            Navigator.push(
-                context,
-                MaterialPageRoute(
-                    builder: (BuildContext context) => AdminAddTaskScreen()));
-          },
-          tooltip: 'Add',
-          child: const Icon(
-            Icons.add,
-            color: Colors.white,
-          ),
-        ),
+        // floatingActionButton: FloatingActionButton(
+        //   backgroundColor: Theme.of(context).primaryColor,
+        //   onPressed: () {
+        //     Navigator.push(
+        //         context,
+        //         MaterialPageRoute(
+        //             builder: (BuildContext context) => AdminAddTaskScreen()));
+        //   },
+        //   tooltip: 'Add',
+        //   child: const Icon(
+        //     Icons.add,
+        //     color: Colors.white,
+        //   ),
+        // ),
         appBar: AppBar(
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
@@ -109,10 +109,15 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        PinPointsTaskModel _task =
-                                                            locationProvider.tasksList![index];
+                                                        PinPointsTaskModel
+                                                            _tasks =
+                                                            locationProvider
+                                                                    .tasksList![
+                                                                index];
                                                         return Column(
-                                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                                          crossAxisAlignment:
+                                                              CrossAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             Padding(
                                                               padding:
@@ -120,42 +125,55 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                                       .all(10),
                                                               child: InkWell(
                                                                 onTap: () {
-                                                                  // Navigator.push(
-                                                                  //   context,
-                                                                  //   MaterialPageRoute(
-                                                                  //     builder:
-                                                                  //         (context) =>
-                                                                  //             TaskDetailsScreen(
-                                                                  //       tasks:
-                                                                  //           _tasks,
-                                                                  //       worker: _tasks
-                                                                  //           .worker,
-                                                                  //       waypoint: _tasks
-                                                                  //           .waypoint,
-                                                                  //     ),
-                                                                  //   ),
-                                                                  // );
+                                                                  Navigator.push(
+                                                                    context,
+                                                                    MaterialPageRoute(
+                                                                      builder:
+                                                                          (context) =>
+                                                                              TaskDetailsScreen(
+                                                                        tasks:
+                                                                            _tasks,
+                                                                        // worker: _tasks
+                                                                        //     .worker,
+                                                                        // waypoint: _tasks
+                                                                        //     .waypoint,
+                                                                      ),
+                                                                    ),
+                                                                  );
                                                                 },
-                                                                child:  Row(
+                                                                child: Row(
                                                                   children: [
-                                                                    Text(
-                                                                        '${_task.details}',
-                                                                        maxLines:
-                                                                        2,
-                                                                        overflow:
-                                                                        TextOverflow
-                                                                            .ellipsis,
-                                                                        style: const TextStyle(color:
-                                                                        Colors.black87, fontSize: 17)),
+                                                                    Column(
+                                                                      crossAxisAlignment:
+                                                                          CrossAxisAlignment
+                                                                              .start,
+                                                                      children: [
+                                                                        Text(
+                                                                            'Pinpoint ID : ${_tasks.pinpointId}',
+                                                                            style:
+                                                                                const TextStyle(color: Colors.black87, fontSize: 17)),
+                                                                        Text(
+                                                                            '${_tasks.user!.fullName}',
+                                                                            style:
+                                                                                const TextStyle(color: Colors.black45, fontSize: 15)),
+                                                                      ],
+                                                                    ),
                                                                     const Spacer(),
-                                                                    const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54
-                                                                    , size: 20)
+                                                                    const Icon(
+                                                                        Icons
+                                                                            .arrow_forward_ios_rounded,
+                                                                        color: Colors
+                                                                            .black54,
+                                                                        size:
+                                                                            20)
                                                                   ],
                                                                 ),
                                                               ),
                                                             ),
                                                             const Padding(
-                                                              padding: EdgeInsets.all(8.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
                                                               child: Divider(),
                                                             ),
                                                           ],

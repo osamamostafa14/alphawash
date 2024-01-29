@@ -61,6 +61,7 @@ class AppConstants {
  static const String STORE_TASK_URI ='/api/v1/user/task/add-task';
  static const String GET_TASK_URI ='/api/v1/user/task/tasks-list';
  static const String POST_PERMISSION_URI ='/api/v1/user/worker/update-permissions';
+ static const String GET_ADMIN_PINPOINT_TASKS_LIST_URI = '/api/v1/user/task/admin-tasks-list';
 
  ///Reports
  static const String ALL_TASKS_REPORT_URI ='/api/v1/user/reports/all-tasks-report';
