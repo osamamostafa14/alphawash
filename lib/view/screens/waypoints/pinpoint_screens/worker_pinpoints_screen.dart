@@ -67,7 +67,6 @@ class _WorkerPinpointsScreenState extends State<WorkerPinpointsScreen> {
                                 markerId: MarkerId(pinPoint.id.toString()),
                                 position: point,
                                 onTap: () {
-                                  print(pinPoint.id);
 
                                   Navigator.push(
                                       context,

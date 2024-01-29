@@ -17,11 +17,11 @@ import 'package:alphawash/utill/dimensions.dart';
 
 class PinPointsTasksScreen extends StatefulWidget {
   PinPointModel? pinPoint;
-  final WorkerTaskModel? tasks;
+  //final WorkerTaskModel? tasks;
   int? user;
 
   PinPointsTasksScreen(
-      {@required this.user, @required this.pinPoint, this.tasks});
+      {@required this.user, @required this.pinPoint});
 
   @override
   State<PinPointsTasksScreen> createState() => _PinPointsTasksScreenState();
@@ -32,7 +32,7 @@ class _PinPointsTasksScreenState extends State<PinPointsTasksScreen> {
   void initState() {
     Timer(const Duration(seconds: 0), () {
       int? pinPointId = widget.pinPoint!.id;
-      Provider.of<ProfileProvider>(context!, listen: false)
+      Provider.of<ProfileProvider>(context, listen: false)
                   .userInfoModel
                   ?.userType ==
               'admin'

@@ -13,10 +13,9 @@ import 'package:provider/provider.dart';
 
 class WorkerTaskPinpointsTabs extends StatefulWidget {
   final PinPointModel? pinPoint;
-  final WorkerTaskModel? tasks;
 
 
-  WorkerTaskPinpointsTabs({@required this.pinPoint  , this.tasks});
+  WorkerTaskPinpointsTabs({@required this.pinPoint});
 
   @override
   _WorkerTaskPinpointsTabsState createState() => _WorkerTaskPinpointsTabsState();
@@ -75,13 +74,13 @@ class _WorkerTaskPinpointsTabsState extends State<WorkerTaskPinpointsTabs>
             child: TabBarView(
               controller: _tabController,
               children: [
-                AddPinpointTaskScreen(tasks:widget.tasks ,
+                AddPinpointTaskScreen(
                   pinPoint: widget.pinPoint!,
                   user: Provider.of<ProfileProvider>(context, listen: false)
                       .userInfoModel!
                       .id,
                 ),
-                PinPointsTasksScreen(tasks:widget.tasks ,
+                PinPointsTasksScreen(
                   user: Provider.of<ProfileProvider>(context, listen: false)
                       .userInfoModel!
                       .id,

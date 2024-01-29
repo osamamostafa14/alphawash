@@ -17,12 +17,12 @@ import '../../../base/custom_snackbar.dart';
 
 class AddPinpointTaskScreen extends StatefulWidget {
   PinPointModel? pinPoint;
-  final WorkerTaskModel? tasks;
+  //final WorkerTaskModel? tasks;
 
   int? user;
 
   AddPinpointTaskScreen(
-      {@required this.user, @required this.pinPoint, this.tasks});
+      {@required this.user, @required this.pinPoint});
   @override
   State<AddPinpointTaskScreen> createState() => _AddPinpointTaskScreenState();
 }

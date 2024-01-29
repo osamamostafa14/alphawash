@@ -444,40 +444,40 @@ class WorkerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<WorkerTaskModel> _workerTasks = [];
-  List<WorkerTaskModel> get workerTasks => _workerTasks;
-
-  bool _workerTasksListLoading = false;
-  bool get workerTasksListLoading => _workerTasksListLoading;
-
-  Future<void> getWorkerTasksList(BuildContext context) async {
-    try {
-      _workerTasksListLoading = true;
-      notifyListeners();
-
-      ApiResponse apiResponse = await workerRepo!.getWorkerTasksList();
-
-      if (apiResponse.response != null &&
-          apiResponse.response!.statusCode == 200) {
-        _workerTasksListLoading = false;
-        _workerTasks = (apiResponse.response!.data as List)
-            .map((item) => WorkerTaskModel.fromJson(item))
-            .toList();
-      } else {
-        _workerTasksListLoading = false;
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(apiResponse.error.toString())),
-        );
-      }
-    } catch (error) {
-      _workerTasksListLoading = false;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text("An error occurred: $error")),
-      );
-    } finally {
-      notifyListeners();
-    }
-  }
+  // List<WorkerTaskModel> _workerTasks = [];
+  // List<WorkerTaskModel> get workerTasks => _workerTasks;
+  //
+  // bool _workerTasksListLoading = false;
+  // bool get workerTasksListLoading => _workerTasksListLoading;
+  //
+  // Future<void> getWorkerTasksList(BuildContext context) async {
+  //   try {
+  //     _workerTasksListLoading = true;
+  //     notifyListeners();
+  //
+  //     ApiResponse apiResponse = await workerRepo!.getWorkerTasksList();
+  //
+  //     if (apiResponse.response != null &&
+  //         apiResponse.response!.statusCode == 200) {
+  //       _workerTasksListLoading = false;
+  //       _workerTasks = (apiResponse.response!.data as List)
+  //           .map((item) => WorkerTaskModel.fromJson(item))
+  //           .toList();
+  //     } else {
+  //       _workerTasksListLoading = false;
+  //       ScaffoldMessenger.of(context).showSnackBar(
+  //         SnackBar(content: Text(apiResponse.error.toString())),
+  //       );
+  //     }
+  //   } catch (error) {
+  //     _workerTasksListLoading = false;
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text("An error occurred: $error")),
+  //     );
+  //   } finally {
+  //     notifyListeners();
+  //   }
+  // }
 
   Future<ResponseModel> workerPermissions(
       int? areas,

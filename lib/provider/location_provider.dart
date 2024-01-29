@@ -10,6 +10,7 @@ import 'package:alphawash/data/repository/location_repo.dart';
 import 'package:alphawash/provider/splash_provider.dart';
 import 'package:alphawash/utill/app_constants.dart';
 import 'package:alphawash/view/base/border_button.dart';
+import 'package:alphawash/view/base/custom_marker.dart';
 import 'package:alphawash/view/screens/users/admin_tasks/admin_add_task_screen.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_info_bottom_sheet.dart';
 import 'package:alphawash/view/screens/waypoints/waypoints_screen.dart';
@@ -195,7 +196,7 @@ class LocationProvider with ChangeNotifier {
       [PinPointModel? pinpoint]) async {
     BitmapDescriptor? icon;
     if(pinpoint!=null){
-       icon = pinpoint!.lastTask != null? await TextOnImage(
+       icon = pinpoint.lastTask != null? await CustomMarker(
          image:
          '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
        ).toBitmapDescriptor(
@@ -204,7 +205,7 @@ class LocationProvider with ChangeNotifier {
        )
            : await BitmapDescriptor.defaultMarker;
     }   else{
-     icon = await TextOnImage(
+     icon = await CustomMarker(
         image:
         'no_image',
       ).toBitmapDescriptor(
