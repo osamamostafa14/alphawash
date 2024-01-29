@@ -20,8 +20,8 @@ class PinpointInfoBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext? context) {
     return Consumer<WorkerProvider>(builder: (context, workerProvider, child) {
-      final tasks = workerProvider.tasks;
-      final lastTask = tasks.isNotEmpty ? tasks[0] : null;
+   //   final tasks = workerProvider.tasks;
+      final lastTask = pinPointModel!.lastTask;
       return Stack(
         children: [
           workerProvider.workerOldTasksListLoading

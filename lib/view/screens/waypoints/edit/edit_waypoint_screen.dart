@@ -10,6 +10,7 @@ import 'package:alphawash/view/base/custom_text_field.dart';
 import 'package:alphawash/view/screens/waypoints/add_pinpoint_screen.dart';
 import 'package:alphawash/view/screens/waypoints/select_area_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:alphawash/utill/dimensions.dart';
 
@@ -373,7 +374,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                           btnTxt: 'Update',
                           onTap: () {
                             FocusScope.of(context).unfocus();
-                            if (_nameController!.text.trim().isEmpty) {
+                            if (_nameController.text.trim().isEmpty) {
                               showCustomSnackBar(
                                   'Please fill name field', context);
                             } else if (locationProvider.searchedArea == null) {
@@ -385,7 +386,16 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                               List<PinPointModel> _pinPoints = [];
 
                               locationProvider.markers.forEach((element) {
+                                print('test ${element.markerId.value}');
+                                int? _id = 0;
+                                try {
+                                  _id = int.parse(element.markerId.value);
+                                } catch (e) {
+                                  print("Error parsing markerId: $e");
+                                  _id = 0;
+                                }
                                 PinPointModel _pin = PinPointModel(
+                                  id: _id,
                                   latitude:
                                       element.position.latitude.toString(),
                                   longitude:

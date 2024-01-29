@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:alphawash/data/model/response/admin_task_model.dart';
+import 'package:alphawash/data/model/response/pin_point_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
 import 'package:alphawash/provider/theme_provider.dart';
 import 'package:alphawash/utill/color_resources.dart';
@@ -108,7 +109,7 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                       shrinkWrap: true,
                                                       itemBuilder:
                                                           (context, index) {
-                                                        AdminTaskModel _tasks =
+                                                        PinPointsTaskModel _task =
                                                             locationProvider.tasksList![index];
                                                         return Column(
                                                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -119,32 +120,33 @@ class _AdminTasksScreenState extends State<AdminTasksScreen> {
                                                                       .all(10),
                                                               child: InkWell(
                                                                 onTap: () {
-                                                                  Navigator.push(
-                                                                    context,
-                                                                    MaterialPageRoute(
-                                                                      builder:
-                                                                          (context) =>
-                                                                              TaskDetailsScreen(
-                                                                        tasks:
-                                                                            _tasks,
-                                                                        worker: _tasks
-                                                                            .worker,
-                                                                        waypoint: _tasks
-                                                                            .waypoint,
-                                                                      ),
-                                                                    ),
-                                                                  );
+                                                                  // Navigator.push(
+                                                                  //   context,
+                                                                  //   MaterialPageRoute(
+                                                                  //     builder:
+                                                                  //         (context) =>
+                                                                  //             TaskDetailsScreen(
+                                                                  //       tasks:
+                                                                  //           _tasks,
+                                                                  //       worker: _tasks
+                                                                  //           .worker,
+                                                                  //       waypoint: _tasks
+                                                                  //           .waypoint,
+                                                                  //     ),
+                                                                  //   ),
+                                                                  // );
                                                                 },
                                                                 child:  Row(
                                                                   children: [
                                                                     Text(
-                                                                        '${_tasks.waypoint!.name}',
+                                                                        '${_task.details}',
                                                                         maxLines:
                                                                         2,
                                                                         overflow:
                                                                         TextOverflow
                                                                             .ellipsis,
-                                                                        style: const TextStyle(color: Colors.black87, fontSize: 17)),
+                                                                        style: const TextStyle(color:
+                                                                        Colors.black87, fontSize: 17)),
                                                                     const Spacer(),
                                                                     const Icon(Icons.arrow_forward_ios_rounded, color: Colors.black54
                                                                     , size: 20)

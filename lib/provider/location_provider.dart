@@ -193,6 +193,7 @@ class LocationProvider with ChangeNotifier {
     MarkerId markerId = pinpoint!=null? MarkerId(pinpoint.id.toString()): MarkerId(location.toString());
     final newMarker = Marker(
         markerId: markerId,
+
         position: location,
         infoWindow: InfoWindow(title: ''),
         icon: BitmapDescriptor.defaultMarker,
@@ -1042,9 +1043,9 @@ class LocationProvider with ChangeNotifier {
 
   bool get bottomTasksListLoading => _bottomTasksListLoading;
 
-  List<AdminTaskModel>? _tasksList;
+  List<PinPointsTaskModel>? _tasksList;
 
-  List<AdminTaskModel>? get tasksList => _tasksList;
+  List<PinPointsTaskModel>? get tasksList => _tasksList;
 
   String? _tasksOffset;
 

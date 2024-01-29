@@ -331,19 +331,19 @@ class _HomeScreenState extends State<HomeScreen> {
                                   text: 'Track Workers',
                                 ),
                               ),
-                              // Expanded(
-                              //   child: HomeButton(
-                              //     onTap: () {
-                              //       Navigator.push(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (BuildContext context) =>
-                              //                   AdminTasksScreen()));
-                              //     },
-                              //     icon: Icons.task,
-                              //     text: 'Tasks',
-                              //   ),
-                              // ),
+                              Expanded(
+                                child: HomeButton(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                AdminTasksScreen()));
+                                  },
+                                  icon: Icons.task,
+                                  text: 'Tasks',
+                                ),
+                              ),
                             ],
                           ),
                           const SizedBox(height: 18),
