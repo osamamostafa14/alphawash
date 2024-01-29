@@ -195,7 +195,7 @@ class LocationProvider with ChangeNotifier {
       [PinPointModel? pinpoint]) async {
     BitmapDescriptor? icon;
     if(pinpoint!=null){
-       icon = pinpoint.lastTask != null? await TextOnImage(
+       icon = pinpoint!.lastTask != null? await TextOnImage(
          image:
          '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
        ).toBitmapDescriptor(

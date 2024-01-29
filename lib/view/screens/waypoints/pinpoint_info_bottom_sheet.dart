@@ -180,21 +180,20 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                           height: 38,
                                           backgroundColor: Colors.red,
                                           onTap: () {
-                                            Navigator.of(context).pop();
+                                            // Navigator.of(context).pop();
                                             showDialog(
                                               context: context,
                                               builder: (context) {
                                                 return AlertDialog(
-                                                  title: Text('Are you sure?',
+                                                  title: Text('If you remove the pin that will delete all tasks on it too.',textAlign:TextAlign.justify  ,
                                                       style: TextStyle(
                                                           color:
-                                                              Theme.of(context)
-                                                                  .primaryColor,
+                                                              Colors.red,fontWeight: FontWeight.w300,
                                                           fontSize: 15)),
-                                                  content: const Text(
-                                                      'If you remove the pin that will delete all tasks on it too . ',
-                                                      style: TextStyle(
-                                                          fontSize: 13)),
+                                                  // content: const Text(
+                                                  //     'If you remove the pin that will delete all tasks on it too . ',
+                                                  //     style: TextStyle(
+                                                  //         fontSize: 13)),
                                                   actions: [
                                                     Padding(
                                                       padding:
