@@ -193,18 +193,30 @@ class LocationProvider with ChangeNotifier {
 
   void addMarker(BuildContext context, LatLng location, bool updateMode,
       [PinPointModel? pinpoint]) async {
-    final icon = pinpoint!.lastTask != null
-        ? await TextOnImage(
-            image:
-                '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
-          ).toBitmapDescriptor(
-            logicalSize: const Size(300, 200),
-            imageSize: const Size(300, 200),
-          )
-        : await BitmapDescriptor.defaultMarker;
+    BitmapDescriptor? icon;
+    if(pinpoint!=null){
+       icon = pinpoint.lastTask != null? await TextOnImage(
+         image:
+         '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
+       ).toBitmapDescriptor(
+         logicalSize: const Size(300, 200),
+         imageSize: const Size(300, 200),
+       )
+           : await BitmapDescriptor.defaultMarker;
+    }   else{
+     icon = await TextOnImage(
+        image:
+        'no_image',
+      ).toBitmapDescriptor(
+          logicalSize: const Size(300, 200),
+          imageSize: const Size(300, 200));
+    }
+
+
     MarkerId markerId = pinpoint != null
         ? MarkerId(pinpoint.id.toString())
         : MarkerId(location.toString());
+
     final newMarker = Marker(
         markerId: markerId,
         position: location,
@@ -260,7 +272,7 @@ class LocationProvider with ChangeNotifier {
               backgroundColor: Colors.transparent,
               builder: (con) {
                 return PinpointInfoBottomSheet(
-                  pinPointModel: pinpoint!,
+                  pinPointModel: pinpoint,
                 );
               },
             );
@@ -273,6 +285,7 @@ class LocationProvider with ChangeNotifier {
 
   void removeMarker(String id) {
     MarkerId markerId = MarkerId(id.toString());
+    _areaChanged = true;
 
     _markers.removeWhere((marker) => marker.markerId == markerId);
     notifyListeners();
@@ -942,6 +955,7 @@ class LocationProvider with ChangeNotifier {
   }
 
   Future<ResponseModel> updateWayPointInfo(WaypointModel waypoint) async {
+    print('test 1111');
     _storeWaypointLoading = true;
     notifyListeners();
     ApiResponse apiResponse = await locationRepo!.updateWayPointInfo(waypoint);
@@ -1206,6 +1220,11 @@ class LocationProvider with ChangeNotifier {
   void updateAreaChangedValue(bool value) {
     _areaChanged = value;
     _selectedDay = 'Select the day';
+    notifyListeners();
+  }
+
+  void resetAreaChanged() {
+    _areaChanged = false;
     notifyListeners();
   }
 

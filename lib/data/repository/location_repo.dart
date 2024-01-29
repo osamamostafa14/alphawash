@@ -106,6 +106,7 @@ class LocationRepo {
   }
 
   Future<ApiResponse> updateWayPointInfo(WaypointModel waypoint) async {
+    print('waypoint=> ${waypoint.toJson()}');
     try {
       final response = await dioClient!
           .post(AppConstants.UPDATE_POINT_URI, data: waypoint.toJson());

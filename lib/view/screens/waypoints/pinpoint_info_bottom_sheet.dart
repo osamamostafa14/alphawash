@@ -180,6 +180,7 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                           height: 38,
                                           backgroundColor: Colors.red,
                                           onTap: () {
+                                            Navigator.of(context).pop();
                                             showDialog(
                                               context: context,
                                               builder: (context) {
@@ -275,6 +276,7 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                         height: 38,
                                         backgroundColor: Colors.red,
                                         onTap: () {
+                                          Navigator.of(context).pop();
                                           showDialog(
                                             context: context,
                                             builder: (context) {

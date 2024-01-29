@@ -392,7 +392,9 @@ class TextOnImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
+    return
+      image!= 'no_image'?
+      Column(children: [
       ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: FadeInImage.assetNetwork(
@@ -401,7 +403,7 @@ class TextOnImage extends StatelessWidget {
               placeholder: Images.placeholder,
               image: image!,
               fit: BoxFit.cover)),
-      Icon(Icons.location_on, color: Colors.red, size: 80)
-    ]);
+      Icon(Icons.location_on, color: Colors.red, size:  80)
+    ]): Icon(Icons.location_on, color: Colors.red, size:  130);
   }
 }

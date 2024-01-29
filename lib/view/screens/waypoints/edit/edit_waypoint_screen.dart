@@ -10,6 +10,7 @@ import 'package:alphawash/view/base/custom_text_field.dart';
 import 'package:alphawash/view/screens/waypoints/add_pinpoint_screen.dart';
 import 'package:alphawash/view/screens/waypoints/select_area_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:alphawash/utill/dimensions.dart';
 
@@ -301,19 +302,37 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                       child: CustomButton(
                           btnTxt: 'Update',
                           onTap: () {
+
                             FocusScope.of(context).unfocus();
-                            if (_nameController!.text.trim().isEmpty) {
+                            print('test 1');
+
+                            if (_nameController.text.trim().isEmpty) {
                               showCustomSnackBar('Please fill name field', context);
+
                             } else if (locationProvider.searchedArea == null) {
                               showCustomSnackBar('Please select area', context);
                             } else if (locationProvider.markers.isEmpty) {
                               showCustomSnackBar('Please add at least on pin point', context);
                             } else {
+
                               List<PinPointModel> _pinPoints = [];
                               locationProvider.markers.forEach((element) {
+                                print('test ${element.markerId.value}');
+                                int? _id = 0;
+                                try {
+                                  _id = int.parse(element.markerId.value);
+                                } catch (e) {
+                                  print("Error parsing markerId: $e");
+                                  _id = 0;
+                                }
                                 PinPointModel _pin = PinPointModel(
-                                  latitude: element.position.latitude.toString(),
-                                  longitude: element.position.longitude.toString(),);
+                                  id: _id,
+                                  latitude:
+                                      element.position.latitude.toString(),
+                                  longitude:
+                                      element.position.longitude.toString(),
+                                );
+
                                 _pinPoints.add(_pin);
                               });
                               WaypointModel _wayPoint = WaypointModel(
@@ -326,6 +345,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                   .updateWayPointInfo(_wayPoint)
                                   .then((value) {
                                 if (value.isSuccess) {
+                                  locationProvider.resetAreaChanged();
                                   showCustomSnackBar('Waypoint updated successfully', context,isError: false);
                                   locationProvider.getWaypointsList(context);
                                 } else {showCustomSnackBar('Something went wrong', context);
