@@ -222,9 +222,14 @@ class _TaskDetailsScreenState extends State<TaskDetailsScreen> {
                     const SizedBox(height: 30),
                     Align(
                       alignment: AlignmentDirectional.topEnd,
-                      child: Container(decoration: BoxDecoration(color:Theme.of(context).primaryColor.withOpacity(0.2) ,  borderRadius: BorderRadius.circular(10) ),
+                      child: Container(
+                        decoration: BoxDecoration(
+                            color:
+                                Theme.of(context).primaryColor.withOpacity(0.2),
+                            borderRadius: BorderRadius.circular(10)),
                         child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5.0 , horizontal: 8),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 5.0, horizontal: 8),
                           child: Text(
                             "ID: ${widget.tasks!.pinpointId}",
                             style: TextStyle(
