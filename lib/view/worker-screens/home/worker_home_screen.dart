@@ -292,33 +292,33 @@ class _WorkerHomeScreenState extends State<WorkerHomeScreen> {
                             ],
                           ),
                         const SizedBox(height: 20),
-                        Row(
-                          children: [
-                            profileProvider.userInfoModel!.workerPermissions
-                                        ?.tasks ==
-                                    1
-                                ? Expanded(
-                                    child: HomeButton(
-                                      onTap: () {
-                                        Provider.of<WorkerProvider>(context,
-                                                listen: false)
-                                            .getWorkerTasksList(context);
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        WorkerTaskScreen()));
-                                      },
-                                      icon: Icons.task,
-                                      text: 'Tasks',
-                                    ),
-                                  )
-                                : const SizedBox(),
-
-
-                          ],
-                        ),
+                        // Row(
+                        //   children: [
+                        //     profileProvider.userInfoModel!.workerPermissions
+                        //                 ?.tasks ==
+                        //             1
+                        //         ? Expanded(
+                        //             child: HomeButton(
+                        //               onTap: () {
+                        //                 Provider.of<WorkerProvider>(context,
+                        //                         listen: false)
+                        //                     .getWorkerTasksList(context);
+                        //                 Navigator.push(
+                        //                     context,
+                        //                     MaterialPageRoute(
+                        //                         builder:
+                        //                             (BuildContext context) =>
+                        //                                 WorkerTaskScreen()));
+                        //               },
+                        //               icon: Icons.task,
+                        //               text: 'Tasks',
+                        //             ),
+                        //           )
+                        //         : const SizedBox(),
+                        //
+                        //
+                        //   ],
+                        // ),
                         const SizedBox(height: 20),
                       ],
                     ),

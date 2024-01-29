@@ -70,6 +70,7 @@ import 'package:alphawash/data/model/response/waypoint_model.dart';
 //     _createdAt = json['created_at'];
 //     _updatedAt = json['updated_at'];
 //   }
+//
 //   Map<String, dynamic> toJson() {
 //     final Map<String, dynamic> data = {
 //       'id': _id,
