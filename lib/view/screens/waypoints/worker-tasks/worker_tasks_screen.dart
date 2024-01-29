@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:alphawash/data/model/response/pin_point_model.dart';
 import 'package:alphawash/data/model/response/waypoint_model.dart';
 import 'package:alphawash/data/model/response/worker_task_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
@@ -82,7 +83,7 @@ class _WorkerTaskScreenState extends State<WorkerTaskScreen> {
                                             const NeverScrollableScrollPhysics(),
                                         shrinkWrap: true,
                                         itemBuilder: (context, index) {
-                                          WorkerTaskModel _tasks =
+                                          PinPointsTaskModel _tasks =
                                               workerProvider.workerTasks[index];
                                           return Column(
                                             children: [

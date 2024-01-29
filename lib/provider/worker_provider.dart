@@ -444,7 +444,7 @@ class WorkerProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  List<WorkerTaskModel> _workerTasks = [];
+  List<PinPointsTaskModel> _workerTasks = [];
   List<WorkerTaskModel> get workerTasks => _workerTasks;
 
   bool _workerTasksListLoading = false;
