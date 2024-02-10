@@ -62,6 +62,7 @@ Widget UserLocationMap(String userId) {
           Marker(
               onTap: () {
                 print(userId);
+                print("lat : $latitude ---- long : $longitude");
               },
               markerId: MarkerId(userId),
               position: LatLng(latitude, longitude)),

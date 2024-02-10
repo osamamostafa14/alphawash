@@ -205,10 +205,10 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
     Timer(const Duration(seconds: 1), () {
       // Provider.of<WorkerProvider>(context, listen: false)
       //     .getOldTasks(context, 43!);
-
     });
     super.initState();
   }
+
   LatLngBounds _editZoom(List<Marker> markers) {
     double minLat = markers[0].position.latitude;
     double maxLat = markers[0].position.latitude;
@@ -344,9 +344,9 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
                     onMapCreated: (GoogleMapController controller) {
                       _controller = controller;
 
-
-                      if ( locationProvider.markers.isNotEmpty) {
-                        LatLngBounds bounds = _editZoom( locationProvider.markers.toList());
+                      if (locationProvider.markers.isNotEmpty) {
+                        LatLngBounds bounds =
+                            _editZoom(locationProvider.markers.toList());
 
                         _controller!.animateCamera(
                           CameraUpdate.newLatLngBounds(bounds, 50),
