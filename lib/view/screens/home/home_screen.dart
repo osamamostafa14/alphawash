@@ -65,18 +65,25 @@ class _HomeScreenState extends State<HomeScreen> {
                                     children: [
                                       const SizedBox(height: 70),
                                       Padding(
-                                        padding: const EdgeInsets.only(left: 12),
+                                        padding:
+                                            const EdgeInsets.only(left: 12),
                                         child: Text(
                                           "Areas",
-                                          style:
-                                          TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.bold, fontSize: 15),
+                                          style: TextStyle(
+                                              color: Theme.of(context)
+                                                  .primaryColor,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 15),
                                         ),
                                       ),
-                                       Padding(
-                                         padding: const EdgeInsets.only(right: 180, left: 12, bottom: 10),
-                                         child: Divider(thickness: 2, color: Theme.of(context).primaryColor),
-                                       ),
-
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            right: 180, left: 12, bottom: 10),
+                                        child: Divider(
+                                            thickness: 2,
+                                            color:
+                                                Theme.of(context).primaryColor),
+                                      ),
                                       ListView.builder(
                                         padding: EdgeInsets.all(0),
                                         itemCount:
@@ -103,57 +110,86 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   ),
                                                 ),
                                                 children: [
-                                                  if (locationProvider.waypoints.any((waypoint) => waypoint.area!.name == _area.name))
+                                                  if (locationProvider.waypoints
+                                                      .any((waypoint) =>
+                                                          waypoint.area!.name ==
+                                                          _area.name))
                                                     ListView.builder(
-                                                      itemCount: locationProvider.waypoints.length,
-                                                      physics: const NeverScrollableScrollPhysics(),
+                                                      itemCount:
+                                                          locationProvider
+                                                              .waypoints.length,
+                                                      physics:
+                                                          const NeverScrollableScrollPhysics(),
                                                       shrinkWrap: true,
-                                                      padding: const EdgeInsets.all(0),
+                                                      padding:
+                                                          const EdgeInsets.all(
+                                                              0),
                                                       itemBuilder:
                                                           (context, index) {
-                                                        WaypointModel _waypoints = locationProvider.waypoints[index];
-                                                        return _area.name == _waypoints.area!.name
+                                                        WaypointModel
+                                                            _waypoints =
+                                                            locationProvider
+                                                                    .waypoints[
+                                                                index];
+                                                        return _area.name ==
+                                                                _waypoints
+                                                                    .area!.name
                                                             ? Padding(
-                                                              padding: const EdgeInsets.only(left: 25, right: 25),
-                                                              child: Column(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                        .only(
+                                                                        left:
+                                                                            25,
+                                                                        right:
+                                                                            25),
+                                                                child: Column(
                                                                   children: [
                                                                     InkWell(
-                                                                      onTap: (){
-                                                                        locationProvider.setSearchedArea(_waypoints.area!);
-                                                                        locationProvider.initPinPoints(context, _waypoints, true);
+                                                                      onTap:
+                                                                          () {
+                                                                        locationProvider
+                                                                            .setSearchedArea(_waypoints.area!);
+                                                                        locationProvider.initPinPoints(
+                                                                            context,
+                                                                            _waypoints,
+                                                                            true);
                                                                         Navigator.push(
                                                                             context,
-                                                                            MaterialPageRoute(
-                                                                                builder: (BuildContext context) => WaypointTabScreen(waypoint: _waypoints)));
+                                                                            MaterialPageRoute(builder: (BuildContext context) => WaypointTabScreen(waypoint: _waypoints)));
                                                                       },
-                                                                      child: Row(
+                                                                      child:
+                                                                          Row(
                                                                         children: [
                                                                           Text(
                                                                             '${_waypoints.name}',
                                                                             maxLines:
-                                                                            2,
-                                                                            overflow: TextOverflow.ellipsis,
+                                                                                2,
+                                                                            overflow:
+                                                                                TextOverflow.ellipsis,
                                                                             style:
-                                                                            const TextStyle(fontFamily: 'Roboto',
-                                                                              fontWeight:FontWeight.bold,
+                                                                                const TextStyle(
+                                                                              fontFamily: 'Roboto',
+                                                                              fontWeight: FontWeight.bold,
                                                                               fontSize: 14.0,
                                                                               color: Colors.black54,
                                                                             ),
                                                                           ),
                                                                           const Spacer(),
 
-                                                                          Text('Show', style: TextStyle(color: Theme.of(context).primaryColor)),
+                                                                          Text(
+                                                                              'Show',
+                                                                              style: TextStyle(color: Theme.of(context).primaryColor)),
 
-                                                                         // Icon(Icons.arrow_forward_ios_rounded, size: 15)
+                                                                          // Icon(Icons.arrow_forward_ios_rounded, size: 15)
                                                                         ],
                                                                       ),
                                                                     ),
-
-                                                                  const SizedBox(height: 20)
-
+                                                                    const SizedBox(
+                                                                        height:
+                                                                            20)
                                                                   ],
                                                                 ),
-                                                            )
+                                                              )
                                                             : SizedBox();
                                                       },
                                                     )
@@ -162,11 +198,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                       padding:
                                                           const EdgeInsets.all(
                                                               8.0),
-                                                      child:  Text(
+                                                      child: Text(
                                                         'No waypoints in this area yet',
                                                         style: TextStyle(
-                                                          color: Colors
-                                                              .black87,
+                                                          color: Colors.black87,
                                                           fontSize: 14.0,
                                                         ),
                                                       ),
@@ -258,15 +293,6 @@ class _HomeScreenState extends State<HomeScreen> {
                               color: Theme.of(context).primaryColor,
                               borderRadius:
                                   const BorderRadius.all(Radius.circular(4.0)),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.grey.withOpacity(0.2),
-                                  spreadRadius: 1,
-                                  blurRadius: 2,
-                                  offset: const Offset(
-                                      0, 1), // changes position of shadow
-                                ),
-                              ],
                             ),
                           ),
                           Row(
@@ -295,7 +321,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 AreasListScreen()));
                                   },
                                   icon: Icons.map,
-                                  text: 'Areas',
+                                  text: 'Map',
                                 ),
                               ),
                             ],
@@ -320,13 +346,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 ),
                               ),
                               const SizedBox(width: 18),
-
                               Expanded(
                                 child: HomeButton(
                                   onTap: () {
                                     final profile =
-                                    Provider.of<ProfileProvider>(context,
-                                        listen: false);
+                                        Provider.of<ProfileProvider>(context,
+                                            listen: false);
                                     print(profile.userInfoModel!.id);
                                     Navigator.push(
                                       context,
@@ -339,29 +364,28 @@ class _HomeScreenState extends State<HomeScreen> {
                                   text: 'Track Workers',
                                 ),
                               ),
-                              // Expanded(
-                              //   child: HomeButton(
-                              //     onTap: () {
-                              //       Navigator.push(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (BuildContext context) =>
-                              //                   AdminTasksScreen()));
-                              //     },
-                              //     icon: Icons.task,
-                              //     text: 'Tasks',
-                              //   ),
-                              // ),
                             ],
                           ),
                           const SizedBox(height: 18),
                           Row(
                             children: [
-
                               Expanded(
                                 child: HomeButton(
                                   onTap: () {
-
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (BuildContext context) =>
+                                                AdminTasksScreen()));
+                                  },
+                                  icon: Icons.task,
+                                  text: 'Tasks',
+                                ),
+                              ),
+                              const SizedBox(width: 18),
+                              Expanded(
+                                child: HomeButton(
+                                  onTap: () {
                                     Navigator.push(
                                       context,
                                       MaterialPageRoute(

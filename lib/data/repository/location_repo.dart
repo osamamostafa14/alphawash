@@ -105,7 +105,44 @@ class LocationRepo {
     }
   }
 
+  Future<ApiResponse> storeWorkerWayPointInfo(WaypointModel waypoint) async {
+    try {
+      final response = await dioClient!.post(
+          AppConstants.STORE_WORKER_WAYPOINT_URI,
+          data: waypoint.toJson());
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      print('error: ${e}');
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
+  Future<ApiResponse> updateWorkerWayPointInfo(WaypointModel waypoint) async {
+    print('waypoint=> ${waypoint.toJson()}');
+    try {
+      final response = await dioClient!.post(
+          AppConstants.UPDATE_WORKER_WAYPOINT_URI,
+          data: waypoint.toJson());
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      print('error: ${e}');
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
+  Future<ApiResponse> deleteWorkerWayPointInfo(int waypointId) async {
+    try {
+      final response = await dioClient!.post(
+          '${AppConstants.DELETE_WORKER_WAYPOINT_URI}?waypoint_id=$waypointId');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      print('error: ${e}');
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
+  }
+
   Future<ApiResponse> updateWayPointInfo(WaypointModel waypoint) async {
+    print('waypoint=> ${waypoint.toJson()}');
     try {
       final response = await dioClient!
           .post(AppConstants.UPDATE_POINT_URI, data: waypoint.toJson());
@@ -115,6 +152,7 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
+
   Future<ApiResponse> deleteWayPointInfo(int waypointId) async {
     try {
       final response = await dioClient!
@@ -125,9 +163,9 @@ class LocationRepo {
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
   }
-  Future<ApiResponse> storeTaskInfo(
-      int workerId, int waypointId, DateTime taskDate,
-      String taskDetails) async {
+
+  Future<ApiResponse> storeTaskInfo(int workerId, int waypointId,
+      DateTime taskDate, String taskDetails) async {
     try {
       final formattedTaskDate = taskDate.toIso8601String();
       final response = await dioClient!.post(

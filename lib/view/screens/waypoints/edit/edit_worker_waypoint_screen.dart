@@ -14,14 +14,15 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:alphawash/utill/dimensions.dart';
 
-class EditWaypointScreen extends StatefulWidget {
+class EditWorkerWaypointScreen extends StatefulWidget {
   final WaypointModel? waypoint;
-  EditWaypointScreen({@required this.waypoint});
+  EditWorkerWaypointScreen({@required this.waypoint});
   @override
-  State<EditWaypointScreen> createState() => _EditWaypointScreenState();
+  State<EditWorkerWaypointScreen> createState() =>
+      _EditWorkerWaypointScreenState();
 }
 
-class _EditWaypointScreenState extends State<EditWaypointScreen> {
+class _EditWorkerWaypointScreenState extends State<EditWorkerWaypointScreen> {
   TextEditingController _nameController = TextEditingController();
 
   @override
@@ -364,7 +365,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                   ),
                 ),
               ),
-              locationProvider.storeWaypointLoading
+              locationProvider.storeWorkerWaypointLoading
                   ? Center(
                       child: Padding(
                           padding: const EdgeInsets.only(bottom: 20),
@@ -419,14 +420,15 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                       ? locationProvider.selectedDay
                                       : widget.waypoint!.day);
                               locationProvider
-                                  .updateWayPointInfo(_wayPoint)
+                                  .updateWorkerWayPointInfo(_wayPoint)
                                   .then((value) {
                                 if (value.isSuccess) {
                                   locationProvider.resetAreaChanged();
                                   showCustomSnackBar(
                                       'Waypoint updated successfully', context,
                                       isError: false);
-                                  locationProvider.getWaypointsList(context);
+                                  locationProvider
+                                      .getWorkerWaypointsList(context);
                                 } else {
                                   showCustomSnackBar(
                                       'Something went wrong', context);
@@ -435,7 +437,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                             }
                           }),
                     ),
-              locationProvider.deleteWaypointLoading
+              locationProvider.deleteWorkerWaypointLoading
                   ? Center(
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 20),
@@ -485,7 +487,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                           onPressed: () {
                                             FocusScope.of(context).unfocus();
                                             locationProvider
-                                                .deleteWayPointInfo(
+                                                .deleteWorkerWayPointInfo(
                                                     widget.waypoint!.id!)
                                                 .then((value) {
                                               if (value.isSuccess) {
@@ -496,7 +498,8 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                                   isError: false,
                                                 );
                                                 locationProvider
-                                                    .getWaypointsList(context);
+                                                    .getWorkerWaypointsList(
+                                                        context);
                                                 Navigator.pop(context);
                                               } else {
                                                 Navigator.pop(context);

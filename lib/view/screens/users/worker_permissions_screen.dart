@@ -44,7 +44,7 @@ class _WorkerPermissionScreenState extends State<WorkerPermissionScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             CheckboxListTile(
-                              title: const Text('Areas'),
+                              title: const Text('Map'),
                               value: workerProvider.workerPermission?.area == 1
                                   ? true
                                   : false,

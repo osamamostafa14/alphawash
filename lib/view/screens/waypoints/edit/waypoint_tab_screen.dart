@@ -16,7 +16,8 @@ class WaypointTabScreen extends StatefulWidget {
   _WaypointTabScreenState createState() => _WaypointTabScreenState();
 }
 
-class _WaypointTabScreenState extends State<WaypointTabScreen> with TickerProviderStateMixin {
+class _WaypointTabScreenState extends State<WaypointTabScreen>
+    with TickerProviderStateMixin {
   TabController? _tabController;
   int _tabIndex = 0;
 
@@ -36,18 +37,26 @@ class _WaypointTabScreenState extends State<WaypointTabScreen> with TickerProvid
 
   // Function to be executed when a tab is tapped
   void onTabTapped(int tabIndex) {
-
     if (tabIndex == 0) {
       _tabIndex = 0;
     } else if (tabIndex == 1) {
       _tabIndex = 1;
 
-      Provider.of<WorkerProvider>(context, listen: false).resetSelectedUsersList();
-      Provider.of<WorkerProvider>(context, listen: false).getWorkersList(context).then((value) { // has new waypoints models
-        Provider.of<WorkerProvider>(context, listen: false).workersList!.forEach((worker) { // loop for each worker to see if has waypoint id same as waypoint of this sreen
-          worker.userWaypoints!.forEach((userWaypoint){
-            if(userWaypoint.waypointId == widget.waypoint!.id){
-              Provider.of<WorkerProvider>(context, listen: false).initSelectedUsersList(userWaypoint.userId, widget.waypoint!.id);
+      Provider.of<WorkerProvider>(context, listen: false)
+          .resetSelectedUsersList();
+      Provider.of<WorkerProvider>(context, listen: false)
+          .getWorkersList(context)
+          .then((value) {
+        // has new waypoints models
+        Provider.of<WorkerProvider>(context, listen: false)
+            .workersList!
+            .forEach((worker) {
+          // loop for each worker to see if has waypoint id same as waypoint of this sreen
+          worker.userWaypoints!.forEach((userWaypoint) {
+            if (userWaypoint.waypointId == widget.waypoint!.id) {
+              Provider.of<WorkerProvider>(context, listen: false)
+                  .initSelectedUsersList(
+                      userWaypoint.userId, widget.waypoint!.id);
             }
           });
         });
@@ -57,57 +66,57 @@ class _WaypointTabScreenState extends State<WaypointTabScreen> with TickerProvid
 
   @override
   Widget build(BuildContext? context) {
-    return
-      Scaffold(
-        backgroundColor: Colors.white,
-        appBar: AppBar(
-          backgroundColor: Theme.of(context!).primaryColor,
-          elevation: 0.0,
-          title: Text('Waypoints',
-              style: TextStyle(color: Theme.of(context).primaryColor, fontWeight: FontWeight.normal)),
-          // leading: IconButton(
-          //   icon: Icon(Icons.arrow_back_ios),
-          //   color: Theme.of(context!).primaryColor,
-          //   onPressed: () => Navigator.pop(context),
-          // ),
-          centerTitle: true,
-        ),
-        body: Column(
-            children: [
-
-              Center(
-                child: Container(
-                  width: 1170,
-                  //color: Colors.white,
-                  child: Container(
-                    color: Theme.of(context).primaryColor,
-                    child: TabBar(
-                      controller: _tabController,
-                      labelColor: Colors.white,
-                      indicatorColor: Theme.of(context).primaryColor,
-                      indicatorWeight: 3,
-                      unselectedLabelStyle: rubikRegular.copyWith(color: ColorResources.COLOR_HINT,
-                          fontSize: Dimensions.FONT_SIZE_SMALL),
-                      labelStyle: rubikMedium.copyWith(fontSize: Dimensions.FONT_SIZE_SMALL, fontWeight: FontWeight.bold),
-                      tabs: [
-                        Tab(text: 'Edit'),
-                        Tab(text: 'Assigned Users'),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-
-              Expanded(child: TabBarView(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context!).primaryColor,
+        elevation: 0.0,
+        title: Text('Waypoints',
+            style: TextStyle(
+                color: Theme.of(context).primaryColor,
+                fontWeight: FontWeight.normal)),
+        // leading: IconButton(
+        //   icon: Icon(Icons.arrow_back_ios),
+        //   color: Theme.of(context!).primaryColor,
+        //   onPressed: () => Navigator.pop(context),
+        // ),
+        centerTitle: true,
+      ),
+      body: Column(children: [
+        Center(
+          child: Container(
+            width: 1170,
+            //color: Colors.white,
+            child: Container(
+              color: Theme.of(context).primaryColor,
+              child: TabBar(
                 controller: _tabController,
-                children: [
-                  EditWaypointScreen(waypoint: widget.waypoint),
-                  SelectUserScreen(waypoint: widget.waypoint),
+                labelColor: Colors.white,
+                indicatorColor: Theme.of(context).primaryColor,
+                indicatorWeight: 3,
+                unselectedLabelStyle: rubikRegular.copyWith(
+                    color: ColorResources.COLOR_HINT,
+                    fontSize: Dimensions.FONT_SIZE_SMALL),
+                labelStyle: rubikMedium.copyWith(
+                    fontSize: Dimensions.FONT_SIZE_SMALL,
+                    fontWeight: FontWeight.bold),
+                tabs: [
+                  Tab(text: 'Edit'),
+                  Tab(text: 'Assigned Users'),
                 ],
-              )),
-
-            ]),
-      );
-
+              ),
+            ),
+          ),
+        ),
+        Expanded(
+            child: TabBarView(
+          controller: _tabController,
+          children: [
+            EditWaypointScreen(waypoint: widget.waypoint),
+            SelectUserScreen(waypoint: widget.waypoint),
+          ],
+        )),
+      ]),
+    );
   }
 }
