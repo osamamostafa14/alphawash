@@ -97,5 +97,13 @@ class WorkerRepo {
       print('error here: ${e}');
       return ApiResponse.withError(ApiErrorHandler.getMessage(e));
     }
+  } Future<ApiResponse> getAdminTasksList(int pinpointId) async {
+    try {
+      final response = await dioClient!.get(
+          '${AppConstants.GET_ADMIN_PINPOINT_TASKS_LIST_URI}?pinpoint_id=$pinpointId');
+      return ApiResponse.withSuccess(response);
+    } catch (e) {
+      return ApiResponse.withError(ApiErrorHandler.getMessage(e));
+    }
   }
 }

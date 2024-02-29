@@ -38,9 +38,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
     List tips = [
       {
         'index': 0,
-        'title_1': 'Welcome to our YardSign board.',
-        'title_2': 'This app never lies',
-        'title_3': '',
+        'title_1': 'Welcome to AlphaWash Yard Sign Tracker!',
+        'title_2':
+            'Welcome to the AlphaWash community, where your efforts make a real difference. This app is designed to be your trusted partner in the field, ensuring every yard sign placed helps us grow together. Remember, this tool reflects your hard work and dedication—accuracy and honesty are key. Your accountability drives our success. Feel free to customize your profile now or later in the settings—make this journey your own.',
+        'title_3': 'This app never lies',
         'title_4': '',
         'title_5': '',
         'title_6': '',
@@ -48,26 +49,31 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
       },
       {
         'index': 1,
-        'title_1': 'Safety.',
-        'title_2': 'Emphasizes safety when placing sign',
+        'title_1': 'Prioritizing Your Safety.',
+        'title_2':
+            'Your safety is our utmost concern. Please adhere to the following when placing yard signs:',
         'title_3':
-            'Mentions to park vehicle safely off road, if they have to park on side of the road, turn flashers on. ',
+            'Always park your vehicle in a safe location, away from traffic. Use flashers if parked on the road.',
         'title_4':
-            'Reminds users to be cautious about walking on the side of the road or crossing road on foot. ',
-        'title_5': 'Watch your surroundings. ',
+            'Be vigilant when walking near or across roads—your well-being is paramount.',
+        'title_5':
+            'Keep these precautions in mind to ensure not just your safety but also that of those around you. Together, we can create a safe working environment for everyone.',
         'title_6': '',
         'image': Images.logo_3,
       },
       {
         'index': 2,
-        'title_1': 'Sign Placement Tips',
-        'title_2': 'Offers tips for effective sign placement.',
+        'title_1': 'Effective Sign Placement Strategies',
+        'title_2':
+            'Placing signs effectively is crucial for maximizing our visibility and impact. Here are some strategies:',
         'title_3':
-            'Emphasizes correct angling for visibility, secure staking completely in the ground, and strategic placement for longevity',
+            'Choose strategic locations like high grass areas or spots with pine straw or dirt, which are less likely to be disturbed',
         'title_4':
             'Strategic placement includes putting them in a taller grass area that doesnt get cut as often, or in pine straw or dirt. Be creative and strategic, make sure its very visible where cars will be stopped',
         'title_5':
-            'DO NOT PLACE them in a street corner that is someones yard.',
+            'Always respect private property and community standards. Avoid placing signs in unauthorized areas, including private yards without permission',
+        'title_6':
+            'This app is a reflection of your contributions and accountability. Let\'s use it to make every placement count.',
         'image': Images.logo_4,
       },
     ];
@@ -311,19 +317,35 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                       .textTheme
                                       .headline3!
                                       .copyWith(
-                                          fontSize: 19.0, color: Colors.white),
+                                          fontSize: 20.0, color: Colors.white),
                                   textAlign: TextAlign.center,
                                 ),
                                 onBoardingList.selectedIndex == 0
                                     ? Padding(
-                                        padding: const EdgeInsets.only(top: 5),
+                                        padding: const EdgeInsets.all(10),
                                         child: Text(
                                           tips[0]['title_2'],
                                           style: Theme.of(context)
                                               .textTheme
                                               .headline3!
                                               .copyWith(
-                                                  fontSize: 19.0,
+                                                  fontSize: 16,
+                                                  fontWeight: FontWeight.normal,
+                                                  color: Colors.white70),
+                                          textAlign: TextAlign.justify,
+                                        ),
+                                      )
+                                    : const SizedBox(),
+                                onBoardingList.selectedIndex == 0
+                                    ? Padding(
+                                        padding: const EdgeInsets.only(top: 15),
+                                        child: Text(
+                                          tips[0]['title_3'],
+                                          style: Theme.of(context)
+                                              .textTheme
+                                              .headline3!
+                                              .copyWith(
+                                                  fontSize: 17.0,
                                                   fontWeight: FontWeight.normal,
                                                   color: Colors.white),
                                           textAlign: TextAlign.center,
@@ -377,10 +399,6 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Icon(Icons.circle,
-                                                    color: Colors.white70,
-                                                    size: 10),
-                                                const SizedBox(width: 8),
                                                 SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
@@ -393,13 +411,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                15.0, // how to make text alignment right
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                FontWeight.w600,
                                                             color:
                                                                 Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -408,7 +426,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              // crossAxisAlignment:
+                                              //     CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.circle,
                                                     color: Colors.white70,
@@ -426,13 +445,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -441,7 +461,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              // crossAxisAlignment:
+                                              //     CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.circle,
                                                     color: Colors.white70,
@@ -459,13 +480,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -474,7 +496,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              // crossAxisAlignment:
+                                              //     CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.circle,
                                                     color: Colors.white70,
@@ -492,13 +515,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -518,10 +542,10 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                   MainAxisAlignment.start,
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
-                                                Icon(Icons.circle,
-                                                    color: Colors.white70,
-                                                    size: 10),
-                                                const SizedBox(width: 8),
+                                                // Icon(Icons.circle,
+                                                //     color: Colors.white70,
+                                                //     size: 10),
+                                                // const SizedBox(width: 8),
                                                 SizedBox(
                                                   width: MediaQuery.of(context)
                                                           .size
@@ -534,13 +558,13 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                16.0, // how to make text alignment right
                                                             fontWeight:
-                                                                FontWeight
-                                                                    .normal,
+                                                                FontWeight.w600,
                                                             color:
                                                                 Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -549,7 +573,8 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              // crossAxisAlignment:
+                                              //     CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.circle,
                                                     color: Colors.white70,
@@ -567,13 +592,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -600,13 +626,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -615,6 +642,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                             Row(
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
+
                                               // crossAxisAlignment: CrossAxisAlignment.start,
                                               children: [
                                                 Icon(Icons.circle,
@@ -633,13 +661,49 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                         .headline3!
                                                         .copyWith(
                                                             fontSize:
-                                                                14.0, // how to make text alignment right
+                                                                14.5, // how to make text alignment right
                                                             fontWeight:
                                                                 FontWeight
                                                                     .normal,
                                                             color:
-                                                                Colors.white),
-                                                    textAlign: TextAlign.left,
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                            const SizedBox(height: 14),
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+
+                                              // crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Icon(Icons.circle,
+                                                    color: Colors.white70,
+                                                    size: 10),
+                                                const SizedBox(width: 8),
+                                                SizedBox(
+                                                  width: MediaQuery.of(context)
+                                                          .size
+                                                          .width *
+                                                      0.8,
+                                                  child: Text(
+                                                    tips[2]['title_6'],
+                                                    style: Theme.of(context)
+                                                        .textTheme
+                                                        .headline3!
+                                                        .copyWith(
+                                                            fontSize:
+                                                                14.5, // how to make text alignment right
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .normal,
+                                                            color:
+                                                                Colors.white70),
+                                                    textAlign:
+                                                        TextAlign.justify,
                                                   ),
                                                 ),
                                               ],
@@ -756,7 +820,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                               ListView.builder(
                                                                 itemCount:
                                                                     workerProvider
-                                                                        .reminder!
+                                                                        .reminder
                                                                         .length,
                                                                 physics:
                                                                     const NeverScrollableScrollPhysics(),
@@ -768,7 +832,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                                   ReminderModel
                                                                       _reminder =
                                                                       workerProvider
-                                                                              .reminder![
+                                                                              .reminder[
                                                                           index];
                                                                   return Column(
                                                                     children: [
@@ -787,14 +851,14 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                                               Column(
                                                                             children: [
                                                                               Row(children: [
-                                                                                Text("Pinpoint ID :", style: TextStyle(fontSize: 16)),
+                                                                                Text("Pinpoint ID:", style: TextStyle(fontSize: 16)),
                                                                                 SizedBox(
                                                                                   width: 10,
                                                                                 ),
                                                                                 Text(_reminder.pinpointId.toString(), style: TextStyle(fontSize: 14)),
                                                                               ]),
                                                                               Row(children: [
-                                                                                Text("Pinpoint Task Day :", style: TextStyle(fontSize: 16)),
+                                                                                Text("Pinpoint Task Day:", style: TextStyle(fontSize: 16)),
                                                                                 SizedBox(
                                                                                   width: 10,
                                                                                 ),

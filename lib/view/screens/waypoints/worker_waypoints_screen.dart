@@ -1,6 +1,7 @@
 import 'package:alphawash/data/model/response/waypoint_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
 import 'package:alphawash/utill/dimensions.dart';
+import 'package:alphawash/view/screens/waypoints/add_worker_waypoint_screen.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/worker_pinpoints_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -36,18 +37,30 @@ class _WorkerWayPointsScreenState extends State<WorkerWayPointsScreen> {
   Widget build(BuildContext context) {
     return Consumer<LocationProvider>(
         builder: (context, locationProvider, child) {
-       List<WorkerWaypointModel> filteredWaypoints;
-          int todayDay = DateTime.now().day;
+      List<WorkerWaypointModel> filteredWaypoints;
+      DateTime now = DateTime.now();
+      String todayDayName = DateFormat('EEEE').format(now);
 
-          locationProvider.showFilteredWaypoints
+      locationProvider.showFilteredWaypoints
           ? filteredWaypoints = locationProvider.workerWaypoints
-              .where((waypoint) =>
-          waypoint.wayPoint?.day == todayDay)
+              .where((waypoint) => waypoint.wayPoint?.day == todayDayName)
               .toList()
-              : filteredWaypoints = locationProvider.workerWaypoints;
+          : filteredWaypoints = locationProvider.workerWaypoints;
 
-          return Scaffold(
+      return Scaffold(
           key: _scaffoldKey,
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {
+              locationProvider.resetWaypointInfo();
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (BuildContext context) =>
+                          AddWorkerWaypointScreen()));
+            },
+            tooltip: 'Add',
+            child: const Icon(Icons.add),
+          ),
           appBar: AppBar(
             title: const Text('Your Waypoints',
                 style: TextStyle(
@@ -88,18 +101,95 @@ class _WorkerWayPointsScreenState extends State<WorkerWayPointsScreen> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      MaterialButton(
-                                        color: Theme.of(context).primaryColor,
-                                        child: Text(
-                                          locationProvider.showFilteredWaypoints
-                                              ? "Back"
-                                              : "Today Waypoints",
-                                          style: TextStyle(color: Colors.white),
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: 30, bottom: 15, top: 15),
+                                        child: Row(
+                                          children: [
+                                            InkWell(
+                                              onTap: () {
+                                                locationProvider
+                                                    .changeFilteredWaypoints(
+                                                        false);
+                                              },
+                                              child: Container(
+                                                width: 115,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  color: !locationProvider
+                                                          .showFilteredWaypoints
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.1),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.5)),
+                                                ),
+                                                child: Center(
+                                                    child: Text('All',
+                                                        style: TextStyle(
+                                                            color: !locationProvider
+                                                                    .showFilteredWaypoints
+                                                                ? Colors.white
+                                                                : Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500))),
+                                              ),
+                                            ),
+                                            const SizedBox(width: 8),
+                                            InkWell(
+                                              onTap: () {
+                                                locationProvider
+                                                    .changeFilteredWaypoints(
+                                                        true);
+                                              },
+                                              child: Container(
+                                                width: 115,
+                                                height: 35,
+                                                decoration: BoxDecoration(
+                                                  borderRadius:
+                                                      BorderRadius.circular(8),
+                                                  color: locationProvider
+                                                          .showFilteredWaypoints
+                                                      ? Theme.of(context)
+                                                          .primaryColor
+                                                      : Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.1),
+                                                  border: Border.all(
+                                                      width: 1,
+                                                      color: Theme.of(context)
+                                                          .primaryColor
+                                                          .withOpacity(0.5)),
+                                                ),
+                                                child: Center(
+                                                    child: Text('Today',
+                                                        style: TextStyle(
+                                                            color: locationProvider
+                                                                    .showFilteredWaypoints
+                                                                ? Colors.white
+                                                                : Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                            fontSize: 14,
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .w500))),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        onPressed: locationProvider
-                                            .changeFilteredWaypoints,
                                       ),
-
                                       locationProvider.showFilteredWaypoints
                                           ? ListView.builder(
                                               padding: const EdgeInsets.all(

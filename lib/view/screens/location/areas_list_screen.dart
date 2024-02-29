@@ -10,28 +10,26 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class AreasListScreen extends StatefulWidget {
-
   @override
   _AreasListScreenState createState() => _AreasListScreenState();
 }
 
 class _AreasListScreenState extends State<AreasListScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey =
-  GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  ScrollController scrollController =  ScrollController();
+  ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    Timer(const Duration(seconds: 1), () {
-      Provider.of<LocationProvider>(context, listen: false).getAreasList(context);
+    Timer(const Duration(seconds: 0), () {
+      Provider.of<LocationProvider>(context, listen: false)
+          .getAreasList(context);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
         key: _scaffoldKey,
         // floatingActionButton: FloatingActionButton(
@@ -47,17 +45,14 @@ class _AreasListScreenState extends State<AreasListScreen> {
           elevation: 0.0,
           backgroundColor: Theme.of(context).primaryColor,
           centerTitle: true,
-          title: const Text('Areas', style: TextStyle(color: Colors.white)),
+          title: const Text('Map', style: TextStyle(color: Colors.white)),
           leading: IconButton(
               icon: const Icon(Icons.arrow_back_ios),
               color: Colors.white,
-              onPressed: () => Navigator.pop(context)
-          ),
+              onPressed: () => Navigator.pop(context)),
         ),
-
         body: Consumer<LocationProvider>(
           builder: (context, locationProvider, child) {
-
             return Column(
               children: [
                 Align(
@@ -66,58 +61,70 @@ class _AreasListScreenState extends State<AreasListScreen> {
                       padding: const EdgeInsets.only(right: 10, top: 15),
                       child: InkWell(
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (BuildContext context)=>
-                              AllAreasMap()));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (BuildContext context) =>
+                                      AllAreasMap()));
                         },
-                        child: Text('Show the full map',style: TextStyle(color: Theme.of(context).primaryColor,
-                        fontSize: 15)),
+                        child: Text('Show the full map',
+                            style: TextStyle(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 15)),
                       ),
                     )),
-
                 Expanded(
                   child: Scrollbar(
                     child: SingleChildScrollView(
                       controller: scrollController,
                       physics: const BouncingScrollPhysics(),
-                      padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                      padding:
+                          const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
                       child: Center(
                         child: SizedBox(
                           width: 1170,
-                          child: locationProvider.areasListLoading || locationProvider.areasList == null?
-                          Center(child: CircularProgressIndicator(valueColor:
-                          AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor))):
-                          locationProvider.areasList!.isEmpty?
-                          const Padding(
-                            padding: EdgeInsets.only(top: 100),
-                            child: Center(child: Text('No saved areas yet')),
-                          ):
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              ListView.builder(
-                                //  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
-                                itemCount: locationProvider.areasList!.length,
-                                physics: const NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemBuilder: (context, index) {
-                                  AreaModel _area = locationProvider.areasList![index];
-                                  return AreaWidget(area: _area, scaffoldKey: _scaffoldKey);
-                                },
-                              ),
-                            ],
-                          ),
+                          child: locationProvider.areasListLoading ||
+                                  locationProvider.areasList == null
+                              ? Center(
+                                  child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          Theme.of(context).primaryColor)))
+                              : locationProvider.areasList!.isEmpty
+                                  ? const Padding(
+                                      padding: EdgeInsets.only(top: 100),
+                                      child: Center(
+                                          child: Text('No saved areas yet')),
+                                    )
+                                  : Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        ListView.builder(
+                                          //  padding: const EdgeInsets.all(Dimensions.PADDING_SIZE_SMALL),
+                                          itemCount: locationProvider
+                                              .areasList!.length,
+                                          physics:
+                                              const NeverScrollableScrollPhysics(),
+                                          shrinkWrap: true,
+                                          itemBuilder: (context, index) {
+                                            AreaModel _area = locationProvider
+                                                .areasList![index];
+                                            return AreaWidget(
+                                                area: _area,
+                                                scaffoldKey: _scaffoldKey);
+                                          },
+                                        ),
+                                      ],
+                                    ),
                         ),
                       ),
                     ),
                   ),
                 ),
-
                 const SizedBox(height: 15),
-
               ],
             );
           },
-        )
-    );
+        ));
   }
 }

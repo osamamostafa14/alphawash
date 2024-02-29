@@ -82,6 +82,7 @@ class _PinpointsTasksScreenState extends State<PinpointsTasksScreen>
                       .userInfoModel!
                       .id,
                   pinPoint: widget.pinPoint!,
+
                 ),
               ],
             ),

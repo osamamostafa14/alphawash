@@ -104,8 +104,8 @@ class _WayPointsScreenState extends State<WayPointsScreen> {
                                                           _waypoint.area!);
 
                                                   locationProvider
-                                                      .initPinPoints(
-                                                          context, _waypoint, true);
+                                                      .initPinPoints(context,
+                                                          _waypoint, true);
                                                   Navigator.push(
                                                       context,
                                                       MaterialPageRoute(

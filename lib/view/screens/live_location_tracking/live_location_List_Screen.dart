@@ -183,8 +183,7 @@ class _LiveLocationWorkerListScreenState
                                     shrinkWrap: true,
                                     itemBuilder: (context, index) {
                                       UserInfoModel _user = workerProvider.workersList![index];
-                                      bool hasLocation =
-                                          workerNames.contains(_user.fullName);
+                                      bool hasLocation = workerNames.contains(_user.fullName);
                                       return WorkerLocationCardWidget(
                                         user: _user,
                                         hasLocation: hasLocation,
