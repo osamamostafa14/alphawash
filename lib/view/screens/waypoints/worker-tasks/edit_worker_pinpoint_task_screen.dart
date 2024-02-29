@@ -153,12 +153,13 @@ class _EditPinPointTasksDetailsScreenState
                                             .userInfoModel!
                                             .workerPermissions
                                             ?.editPinpoints ==
-                                        0 ||
-                                    Provider.of<ProfileProvider>(context,
-                                                listen: false)
-                                            .userInfoModel!
-                                            .userType ==
-                                        'admin'
+                                        0
+                                // ||
+                                //     Provider.of<ProfileProvider>(context,
+                                //                 listen: false)
+                                //             .userInfoModel!
+                                //             .userType ==
+                                //         'admin'
                                 ? print("no permission")
                                 : _choose();
                           },
@@ -190,13 +191,15 @@ class _EditPinPointTasksDetailsScreenState
                                           .userInfoModel!
                                           .workerPermissions
                                           ?.editPinpoints ==
-                                      0 ||
-                                  Provider.of<ProfileProvider>(context,
-                                              listen: false)
-                                          .userInfoModel!
-                                          .userType ==
-                                      'admin'
-                              ? true
+                                      0
+                          // ||
+                              //     Provider.of<ProfileProvider>(context,
+                              //                 listen: false)
+                              //             .userInfoModel!
+                              //             .userType ==
+                              //         'admin'
+                              ?
+                          true
                               : false,
                           inputAction: TextInputAction.done,
                           inputType: TextInputType.text,
@@ -208,12 +211,13 @@ class _EditPinPointTasksDetailsScreenState
                                       .userInfoModel!
                                       .workerPermissions
                                       ?.editPinpoints ==
-                                  0 ||
-                              Provider.of<ProfileProvider>(context,
-                                          listen: false)
-                                      .userInfoModel!
-                                      .userType ==
-                                  'admin'
+                                  0
+                          // ||
+                          //     Provider.of<ProfileProvider>(context,
+                          //                 listen: false)
+                          //             .userInfoModel!
+                          //             .userType ==
+                          //         'admin'
                           ? Align(
                               alignment: Alignment.center,
                               child: Text(
