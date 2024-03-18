@@ -181,18 +181,23 @@ class WorkerPermissionsModel {
   set area(int? value) {
     _area = value;
   }
+
   set waypoints(int? value) {
     _waypoints = value;
   }
+
   set addPinpoints(int? value) {
     _addPinpoints = value;
   }
+
   set showPinpoints(int? value) {
     _showPinpoints = value;
   }
+
   set editPinpoints(int? value) {
     _editPinpoints = value;
   }
+
   set tasks(int? value) {
     _tasks = value;
   }

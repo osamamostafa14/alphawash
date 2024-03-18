@@ -59,7 +59,6 @@ class WorkerProvider with ChangeNotifier {
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-
       _reminder = [];
       apiResponse.response!.data.forEach((item) {
         ReminderModel reminder = ReminderModel.fromJson(item);
@@ -84,7 +83,6 @@ class WorkerProvider with ChangeNotifier {
 
     if (apiResponse.response != null &&
         apiResponse.response!.statusCode == 200) {
-
       _workersList = [];
       apiResponse.response!.data.forEach((item) {
         _workersList!.add(UserInfoModel.fromJson(item));
@@ -545,6 +543,7 @@ class WorkerProvider with ChangeNotifier {
     }
     notifyListeners();
   }
+
   bool _workerOldAdminTasksListLoading = false;
   bool get workerOldAdminTasksListLoading => _workerOldAdminTasksListLoading;
 

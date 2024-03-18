@@ -1,6 +1,7 @@
 import 'package:alphawash/data/model/response/area_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -22,11 +23,15 @@ class _AddPinPointScreenState extends State<AddPinPointScreen> {
   TextEditingController? _areaController;
 
   bool _mapVisible = true;
+  var _mapStyle;
+  Future _loadMapStyles() async {
+    _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
+  }
 
   @override
   void initState() {
     super.initState();
-
+    _loadMapStyles();
     _addressController = TextEditingController();
     _areaController = TextEditingController();
 
@@ -130,7 +135,9 @@ class _AddPinPointScreenState extends State<AddPinPointScreen> {
                         children: [
                           _mapVisible == true
                               ? GoogleMap(
-                            mapType: locationProvider.satelliteMode? MapType.satellite: MapType.normal,
+                                  mapType: locationProvider.satelliteMode
+                                      ? MapType.satellite
+                                      : MapType.normal,
                                   initialCameraPosition: CameraPosition(
                                     target: initialPosition!,
                                     zoom: 8,
@@ -155,6 +162,7 @@ class _AddPinPointScreenState extends State<AddPinPointScreen> {
                                   // markers: Set<Marker>.of(locationProvider.markers),
                                   onMapCreated:
                                       (GoogleMapController controller) {
+                                    controller.setMapStyle(_mapStyle);
                                     _controller = controller;
                                     if (_controller != null) {
                                       locationProvider.getWaypointLocation(
@@ -166,7 +174,6 @@ class _AddPinPointScreenState extends State<AddPinPointScreen> {
                                   },
                                 )
                               : const SizedBox(),
-
                           locationProvider.loading
                               ? Center(
                                   child: CircularProgressIndicator(

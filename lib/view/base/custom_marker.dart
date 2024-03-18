@@ -7,18 +7,24 @@ class CustomMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-      image!= 'no_image'?
-      Column(children: [
-        ClipRRect(
-            borderRadius: BorderRadius.circular(10),
-            child: FadeInImage.assetNetwork(
-                height: 120,
-                width: 110,
-                placeholder: Images.placeholder,
-                image: image!,
-                fit: BoxFit.cover)),
-        Icon(Icons.location_on, color: Colors.red, size:  80)
-      ]): Icon(Icons.location_on, color: Colors.red, size:  130);
+    return image != 'no_image'
+        ? Column(children: [
+            Container(
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(15),
+                    color: Colors.white),
+                child: Padding(
+                    padding: const EdgeInsets.all(8),
+                    child: ClipRRect(
+                        borderRadius: BorderRadius.circular(100),
+                        child: FadeInImage.assetNetwork(
+                            height: 110,
+                            width: 110,
+                            placeholder: Images.placeholder,
+                            image: image!,
+                            fit: BoxFit.cover)))),
+            Icon(Icons.location_on, color: Colors.white, size: 50)
+          ])
+        : Icon(Icons.location_on, color: Colors.red, size: 130);
   }
 }

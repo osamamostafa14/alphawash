@@ -28,7 +28,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
   void initState() {
     super.initState();
     _nameController.text = widget.waypoint!.name!;
-    Timer(const Duration(seconds: 2), () {
+    Timer(const Duration(seconds: 1), () {
       Provider.of<LocationProvider>(context, listen: false)
           .updateAreaChangedValue(false);
     });
@@ -73,7 +73,7 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                 height: Dimensions.PADDING_SIZE_SMALL),
                             CustomTextField(
                               hintText: 'Name',
-                              isShowBorder: true,
+                              isShowBorder: false,
                               inputAction: TextInputAction.done,
                               inputType: TextInputType.text,
                               controller: _nameController,
@@ -179,16 +179,17 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                     });
                               },
                               child: Container(
-                                height: 50,
+                                height: 65,
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
+                                    color: Colors.grey[100],
                                     borderRadius: const BorderRadius.all(
                                         Radius.circular(10.0)),
-                                    border: Border.all(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.4),
-                                        width: 1)),
+                                    // border: Border.all(
+                                    //     color: Theme.of(context)
+                                    //         .primaryColor
+                                    //         .withOpacity(0.4),
+                                    //     width: 1)
+                                ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(8.0),
                                   child: Row(
@@ -263,16 +264,17 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                                         )));
                                     },
                                     child: Container(
-                                      height: 50,
+                                      height: 65,
                                       decoration: BoxDecoration(
-                                          color: Colors.white,
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(10.0)),
-                                          border: Border.all(
-                                              color: Theme.of(context)
-                                                  .primaryColor
-                                                  .withOpacity(0.4),
-                                              width: 1)),
+                                        color: Colors.grey[100],
+                                        borderRadius: const BorderRadius.all(
+                                            Radius.circular(10.0)),
+                                        // border: Border.all(
+                                        //     color: Theme.of(context)
+                                        //         .primaryColor
+                                        //         .withOpacity(0.4),
+                                        //     width: 1)
+                                      ),
                                       child: Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(
@@ -323,17 +325,16 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                                       context, locationProvider);
                                 },
                                 child: Container(
-                                    height: 50,
+                                    height: 65,
                                     decoration: BoxDecoration(
-                                      color: Colors.white,
+                                      color: Colors.grey[100],
                                       borderRadius: const BorderRadius.all(
                                           Radius.circular(10.0)),
-                                      border: Border.all(
-                                        color: Theme.of(context)
-                                            .primaryColor
-                                            .withOpacity(0.4),
-                                        width: 1,
-                                      ),
+                                      // border: Border.all(
+                                      //     color: Theme.of(context)
+                                      //         .primaryColor
+                                      //         .withOpacity(0.4),
+                                      //     width: 1)
                                     ),
                                     child: Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -375,7 +376,9 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                       padding:
                           const EdgeInsets.only(right: 8, left: 8, bottom: 5),
                       child: CustomButton(
-                          btnTxt: 'Update',
+                          btnTxt: 'Update',height: 50,
+                          backgroundColor: Colors.black,
+                          textColor: Colors.white,
                           onTap: () {
                             FocusScope.of(context).unfocus();
                             print('test 1');
@@ -537,9 +540,9 @@ class _EditWaypointScreenState extends State<EditWaypointScreen> {
                               );
                             },
                           );
-                        },
-                        backgroundColor: Colors.transparent,
-                        textColor: Theme.of(context).primaryColor,
+                        },height: 50,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
                       ),
                     ),
             ],

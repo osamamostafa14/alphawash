@@ -174,6 +174,7 @@ import 'package:alphawash/utill/images.dart';
 import 'package:alphawash/view/base/custom_marker.dart';
 import 'package:alphawash/view/screens/waypoints/worker-tasks/worker_task_pinpoints_tabs.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
@@ -202,6 +203,15 @@ class _WorkerPinpointsScreenState extends State<WorkerPinpointsScreen> {
     }
   }
 
+  var _mapStyle;
+  Future _loadMapStyles() async {
+    _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
+  }
+  @override
+  void initState() {
+    super.initState();
+    _loadMapStyles();
+   }
   Future<List<Marker>> _createMarkers() async {
     List<Marker> markers = [];
 
@@ -343,6 +353,7 @@ class _WorkerPinpointsScreenState extends State<WorkerPinpointsScreen> {
                             markers: Set<Marker>.of(markers),
                             onMapCreated: (GoogleMapController controller) {
                               _controller = controller;
+                              controller.setMapStyle(_mapStyle);
 
                               if (markers.isNotEmpty) {
                                 LatLngBounds bounds = _editZoom(markers);

@@ -50,6 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
 
+    Provider.of<ProfileProvider>(context, listen: false).getUserInfo(context);
+
     if (Provider.of<ProfileProvider>(context, listen: false).userInfoModel !=
         null) {
       _fullNameController!.text =
@@ -122,7 +124,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const SizedBox(height: 10),
-
+                        Text(profileProvider.userInfoModel!.id.toString()),
                         // Profile Image
                         Container(
                           height: 80,
@@ -340,59 +342,59 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(left: 20, right: 20),
                           child: CustomButton(
-                              btnTxt: 'Update',
-                              onTap: () async {
-                                FocusScope.of(context).unfocus();
+                            btnTxt: 'Update',
+                            onTap: () async {
+                              FocusScope.of(context).unfocus();
 
-                                String _fullName =
-                                    _fullNameController!.text.trim();
-                                String _phone =
-                                    '${_phoneNumberController!.text.trim()}';
-                                String _password =
-                                    _passwordController!.text.trim();
-                                String _confirmPassword =
-                                    _confirmPasswordController!.text.trim();
-                                if (_fullName.isEmpty) {
-                                  showCustomSnackBar(
-                                      'Enter full name', context);
-                                } else if (_phone.length < 10) {
-                                  showCustomSnackBar(
-                                      'Enter valid phone number', context);
-                                } else if (_password.length < 6 &&
-                                    _password.length != 0) {
-                                  showCustomSnackBar(
-                                      'Password should be more than 6 character',
-                                      context);
-                                } else if (_password != _confirmPassword &&
-                                    _password.length != 0) {
-                                  showCustomSnackBar(
-                                      'Password did not match', context);
-                                } else {
-                                  SignUpModel signUpModel = SignUpModel(
-                                    fullName: _fullName,
-                                    // email: _email,
-                                    password: _password,
-                                    phone: _phone,
-                                  );
+                              String _fullName =
+                                  _fullNameController!.text.trim();
+                              String _phone =
+                                  '${_phoneNumberController!.text.trim()}';
+                              String _password =
+                                  _passwordController!.text.trim();
+                              String _confirmPassword =
+                                  _confirmPasswordController!.text.trim();
+                              if (_fullName.isEmpty) {
+                                showCustomSnackBar('Enter full name', context);
+                              } else if (_phone.length < 10) {
+                                showCustomSnackBar(
+                                    'Enter valid phone number', context);
+                              } else if (_password.length < 6 &&
+                                  _password.length != 0) {
+                                showCustomSnackBar(
+                                    'Password should be more than 6 character',
+                                    context);
+                              } else if (_password != _confirmPassword &&
+                                  _password.length != 0) {
+                                showCustomSnackBar(
+                                    'Password did not match', context);
+                              } else {
+                                SignUpModel signUpModel = SignUpModel(
+                                  fullName: _fullName,
+                                  // email: _email,
+                                  password: _password,
+                                  phone: _phone,
+                                );
 
-                                  var box = Hive.box('myBox');
-                                  String token = box.get(AppConstants.TOKEN);
-                                  profileProvider
-                                      .updatePersonalInfo(token, signUpModel)
-                                      .then((value) {
-                                    if (value.statusCode == 200) {
-                                      profileProvider.getUserInfo(context);
-                                      showCustomSnackBar(
-                                          'Profile Updated!', context,
-                                          isError: false);
-                                    } else {
-                                      showCustomSnackBar(
-                                          'Something went wrong!', context,
-                                          isError: false);
-                                    }
-                                  });
-                                }
-                              }),
+                                var box = Hive.box('myBox');
+                                String token = box.get(AppConstants.TOKEN);
+                                profileProvider
+                                    .updatePersonalInfo(token, signUpModel)
+                                    .then((value) {
+                                  if (value.statusCode == 200) {
+                                    profileProvider.getUserInfo(context);
+                                    showCustomSnackBar(
+                                        'Profile Updated!', context,
+                                        isError: false);
+                                  } else {
+                                    showCustomSnackBar(
+                                        'Something went wrong!', context,
+                                        isError: false);
+                                  }
+                                });
+                              }
+                            },
+                          ),
                         ),
 
                         const SizedBox(height: 30),

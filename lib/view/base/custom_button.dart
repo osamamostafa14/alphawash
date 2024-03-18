@@ -6,8 +6,8 @@ class CustomButton extends StatelessWidget {
   final String? btnTxt;
   final Color? backgroundColor;
   final Color? textColor;
-  final double? height;
-  CustomButton({this.onTap, @required this.btnTxt, this.backgroundColor, this.textColor, this.height});
+  final double? height;final bool? fromPinPointPage ;
+  CustomButton({this.onTap, @required this.btnTxt, this.backgroundColor, this.textColor, this.height, this.fromPinPointPage=false});
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +16,7 @@ class CustomButton extends StatelessWidget {
       minimumSize: Size(MediaQuery.of(context).size.width, height !=null?height!: 50),
       padding: EdgeInsets.zero,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(fromPinPointPage==true?40:10),
       ),
     );
 

@@ -5,6 +5,7 @@ import 'package:alphawash/utill/dimensions.dart';
 import 'package:alphawash/utill/images.dart';
 import 'package:alphawash/view/screens/location/autocomplete_search.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
@@ -28,12 +29,16 @@ class _EditAreaScreenState extends State<EditAreaScreen> {
 
   bool _mapVisible = true;
 
-  List<LatLng> polygonPoints = [];
+  List<LatLng> polygonPoints = [];var _mapStyle;
+  Future _loadMapStyles() async {
+    _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
+  }
+
 
   @override
   void initState() {
     super.initState();
-
+_loadMapStyles();
     _addressController = TextEditingController();
     _areaController = TextEditingController();
 
@@ -152,6 +157,7 @@ class _EditAreaScreenState extends State<EditAreaScreen> {
                     // markers: Set<Marker>.of(locationProvider.markers),
                     onMapCreated: (GoogleMapController controller) {
                       _controller = controller;
+                      controller.setMapStyle(_mapStyle);
 
                       if(widget.fromAutoCompleteSearch == true){
                         locationProvider.getSearchedLocation(mapController: _controller);

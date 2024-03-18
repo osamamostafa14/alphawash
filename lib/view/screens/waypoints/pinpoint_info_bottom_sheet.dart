@@ -7,6 +7,7 @@ import 'package:alphawash/view/base/custom_button.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/add_pinpoint_task_screen.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/list_pinpoint_tasks_screen.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/pinpoints_tasks_tabs.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:google_maps_flutter_platform_interface/src/types/marker.dart';
@@ -52,8 +53,7 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                           width: 1170,
                           child: pinPointModel!.lastTask != null
                               ? Padding(
-                                  padding: const EdgeInsets.only(
-                                      left: 40, right: 30),
+                                  padding: const EdgeInsets.all(0),
                                   child: Column(
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
@@ -62,21 +62,21 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                       Row(
                                         children: [
                                           const Text(
-                                            "Last Task on this Pinpoint",
+                                            "Task Pinpoint",
                                             style: TextStyle(
                                               color: Colors.black87,
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
                                             ),
-                                            textAlign: TextAlign.center,
+                                            // textAlign: TextAlign.center,
                                           ),
                                           const Spacer(),
-                                          InkWell(
-                                            onTap: () {
-                                              Navigator.of(context).pop();
-                                            },
-                                            child: const Icon(Icons.close),
-                                          )
+                                          // InkWell(
+                                          //   onTap: () {
+                                          //     Navigator.of(context).pop();
+                                          //   },
+                                          //   child: const Icon(Icons.close),
+                                          // )
                                         ],
                                       ),
 
@@ -94,34 +94,47 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                       //
                                       // const SizedBox(height: 7),
 
-                                      Container(
-                                        decoration: BoxDecoration(
-                                          border:
-                                              Border.all(color: Colors.black),
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                        ),
-                                        child: ClipRRect(
+                                      Center(
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                color: Colors.grey[400]!,
+                                                spreadRadius: 0,
+                                                blurRadius: 1.2,
+                                                offset: const Offset(0,
+                                                    3), // changes position of shadow
+                                              ),
+                                            ],
+                                            // border:
+                                            //     Border.all(color: Colors.black),
                                             borderRadius:
-                                                BorderRadius.circular(10),
-                                            child: Image.network(
-                                                '${Provider.of<SplashProvider>(
-                                                  context,
-                                                ).baseUrls!.taskImageUrl}/${pinPointModel!.lastTask!.image}',
-                                                width: 300,
-                                                height: 200,
-                                                fit: BoxFit.cover)),
+                                                BorderRadius.circular(25),
+                                          ),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: ClipRRect(
+                                                borderRadius:
+                                                    BorderRadius.circular(200),
+                                                child: Image.network(
+                                                    '${Provider.of<SplashProvider>(
+                                                      context,
+                                                    ).baseUrls!.taskImageUrl}/${pinPointModel!.lastTask!.image}',
+                                                    width: 150,
+                                                    height: 150,
+                                                    fit: BoxFit.cover)),
+                                          ),
+                                        ),
                                       ),
 
                                       const SizedBox(height: 20),
 
                                       Text('Task Details: ',
                                           style: TextStyle(
-                                              color: Theme.of(context)
-                                                  .textTheme
-                                                  .headline1!
-                                                  .color,
-                                              fontSize: 15)),
+                                              color: Colors.grey[500],
+                                              fontSize: 16,
+                                              fontWeight: FontWeight.w500)),
 
                                       const SizedBox(height: 7),
 
@@ -152,7 +165,8 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                               builder: (BuildContext context) =>
                                                   PinPointsTasksScreen(
                                                 user: null,
-                                                pinPoint: pinPointModel,admin: true,
+                                                pinPoint: pinPointModel,
+                                                admin: true,
                                               ),
                                             ),
                                           );
@@ -164,26 +178,27 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                               'Show all tasks',
                                               maxLines: 1,
                                               style: TextStyle(
-                                                color: Theme.of(context)
-                                                    .primaryColor,
-                                                overflow: TextOverflow.ellipsis,
-                                                fontSize: 16,
-                                              ),
+                                                  color: Theme.of(context)
+                                                      .primaryColor,
+                                                  overflow:
+                                                      TextOverflow.ellipsis,
+                                                  fontSize: 17,
+                                                  fontWeight: FontWeight.w700),
                                             ),
                                             const SizedBox(width: 10),
-                                            Icon(
-                                                Icons.arrow_forward_ios_rounded,
+                                            Icon(Icons.arrow_forward_ios,
                                                 color: Theme.of(context)
                                                     .primaryColor,
-                                                size: 18)
+                                                size: 12)
                                           ],
                                         ),
                                       ),
 
                                       const SizedBox(height: 10),
                                       CustomButton(
+                                          fromPinPointPage: true,
                                           btnTxt: 'Remove',
-                                          height: 38,
+                                          height: 45,
                                           backgroundColor: Colors.red,
                                           onTap: () {
                                             // Navigator.of(context).pop();
@@ -266,8 +281,9 @@ class PinpointInfoBottomSheet extends StatelessWidget {
 
                                       const SizedBox(height: 10),
                                       CustomButton(
+                                          fromPinPointPage: true,
                                           btnTxt: 'Add new task',
-                                          height: 38,
+                                          height: 45,
                                           backgroundColor:
                                               Theme.of(context).primaryColor,
                                           onTap: () {
@@ -289,86 +305,105 @@ class PinpointInfoBottomSheet extends StatelessWidget {
                                   children: [
                                     Text(
                                       "You don't have tasks yet in this pinpoint",
-                                      style: TextStyle(fontSize: 16),
+                                      textAlign: TextAlign.justify,
+                                      style: TextStyle(
+                                          fontSize: 18,
+                                          fontWeight: FontWeight.w600),
                                     ),
                                     const SizedBox(height: 10),
-                                    CustomButton(
-                                        btnTxt: 'Ok',
-                                        height: 38,
-                                        onTap: () {
-                                          Navigator.pop(context);
-                                        }),
-                                    CustomButton(
-                                        btnTxt: 'Remove',
-                                        height: 38,
-                                        backgroundColor: Colors.red,
-                                        onTap: () {
-                                          Navigator.of(context).pop();
-                                          showDialog(
-                                            context: context,
-                                            builder: (context) {
-                                              return AlertDialog(
-                                                title: Text('Are you sure?',
-                                                    style: TextStyle(
-                                                        color: Theme.of(context)
-                                                            .primaryColor,
-                                                        fontSize: 15)),
-                                                content: const Text(
-                                                    'Do you want to remove this pin?',
-                                                    style: TextStyle(
-                                                        fontSize: 13)),
-                                                actions: [
-                                                  Padding(
-                                                    padding:
-                                                        const EdgeInsets.only(
-                                                            bottom: 10),
-                                                    child: Row(
-                                                      mainAxisAlignment:
-                                                          MainAxisAlignment
-                                                              .center,
-                                                      children: [
-                                                        BorderButton(
-                                                          onTap: () {
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          btnTxt: 'No',
-                                                          borderColor:
-                                                              Colors.black26,
-                                                        ),
-                                                        const SizedBox(
-                                                            width: 10),
-                                                        BorderButton(
-                                                          onTap: () {
-                                                            Provider.of<LocationProvider>(
-                                                                    context,
-                                                                    listen:
-                                                                        false)
-                                                                .removeMarker(
-                                                                    pinPointModel!
-                                                                        .id
-                                                                        .toString());
-                                                            Navigator.pop(
-                                                                context);
-                                                          },
-                                                          btnTxt: 'Yes',
-                                                          borderColor:
-                                                              Colors.black26,
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  )
-                                                ],
-                                              );
-                                            },
-                                          );
-                                          // Provider.of<LocationProvider>(
-                                          //         context,
-                                          //         listen: false)
-                                          //     .removeMarker(pinPointModel!.id
-                                          //         .toString());
-                                          // Navigator.pop(context);
-                                        }),
+                                    Row(
+                                      children: [
+                                        Expanded(
+                                          child: CustomButton(
+                                              fromPinPointPage: true,
+                                              btnTxt: 'Ok',
+                                              height: 38,
+                                              onTap: () {
+                                                Navigator.pop(context);
+                                              }),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Expanded(
+                                            child: CustomButton(
+                                                fromPinPointPage: true,
+                                                btnTxt: 'Remove',
+                                                height: 38,
+                                                backgroundColor: Colors.red,
+                                                onTap: () {
+                                                  Navigator.of(context).pop();
+                                                  showDialog(
+                                                    context: context,
+                                                    builder: (context) {
+                                                      return AlertDialog(
+                                                        title: Text(
+                                                            'Are you sure?',
+                                                            style: TextStyle(
+                                                                color: Theme.of(
+                                                                        context)
+                                                                    .primaryColor,
+                                                                fontSize: 15)),
+                                                        content: const Text(
+                                                            'Do you want to remove this pin?',
+                                                            style: TextStyle(
+                                                                fontSize: 13)),
+                                                        actions: [
+                                                          Padding(
+                                                            padding:
+                                                                const EdgeInsets
+                                                                    .only(
+                                                                    bottom: 10),
+                                                            child: Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                BorderButton(
+                                                                  onTap: () {
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  btnTxt: 'No',
+                                                                  borderColor:
+                                                                      Colors
+                                                                          .black26,
+                                                                ),
+                                                                const SizedBox(
+                                                                    width: 10),
+                                                                BorderButton(
+                                                                  onTap: () {
+                                                                    Provider.of<LocationProvider>(
+                                                                            context,
+                                                                            listen:
+                                                                                false)
+                                                                        .removeMarker(pinPointModel!
+                                                                            .id
+                                                                            .toString());
+                                                                    Navigator.pop(
+                                                                        context);
+                                                                  },
+                                                                  btnTxt: 'Yes',
+                                                                  borderColor:
+                                                                      Colors
+                                                                          .black26,
+                                                                ),
+                                                              ],
+                                                            ),
+                                                          )
+                                                        ],
+                                                      );
+                                                    },
+                                                  );
+                                                  // Provider.of<LocationProvider>(
+                                                  //         context,
+                                                  //         listen: false)
+                                                  //     .removeMarker(pinPointModel!.id
+                                                  //         .toString());
+                                                  // Navigator.pop(context);
+                                                }))
+                                      ],
+                                    ),
                                   ],
                                 ),
                         ),

@@ -3,9 +3,11 @@ import 'package:alphawash/data/model/response/waypoint_model.dart';
 import 'package:alphawash/provider/location_provider.dart';
 import 'package:alphawash/provider/profile_provider.dart';
 import 'package:alphawash/provider/splash_provider.dart';
+import 'package:alphawash/provider/worker_provider.dart';
 import 'package:alphawash/utill/images.dart';
 import 'package:alphawash/view/base/home_button_widget.dart';
 import 'package:alphawash/view/screens/live_location_tracking/live_location_List_Screen.dart';
+import 'package:alphawash/view/screens/live_location_tracking/track_all_users_same_screen/live_location_all_users_screen.dart';
 import 'package:alphawash/view/screens/location/areas_list_screen.dart';
 import 'package:alphawash/view/screens/report/task_updates_screen.dart';
 import 'package:alphawash/view/screens/users/admin_tasks/admin_task_screen.dart';
@@ -13,6 +15,7 @@ import 'package:alphawash/view/screens/waypoints/edit/waypoint_tab_screen.dart';
 import 'package:alphawash/view/screens/waypoints/waypoints_screen.dart';
 import 'package:alphawash/view/screens/users/users_list_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import 'package:alphawash/provider/auth_provider.dart';
 import 'package:alphawash/utill/dimensions.dart';
@@ -288,116 +291,101 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor,
-                              borderRadius:
-                                  const BorderRadius.all(Radius.circular(4.0)),
-                            ),
+                          HomeButton(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          UsersScreen()));
+                            },
+                            icon: Icons.supervised_user_circle,
+                            text: 'Users',
                           ),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                UsersScreen()));
-                                  },
-                                  icon: Icons.supervised_user_circle,
-                                  text: 'Users',
-                                ),
-                              ),
-                              const SizedBox(width: 20),
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                AreasListScreen()));
-                                  },
-                                  icon: Icons.map,
-                                  text: 'Map',
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 15),
+                          HomeButton(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          AreasListScreen()));
+                            },
+                            icon: Icons.map,
+                            text: 'Map',
                           ),
-                          const SizedBox(height: 18),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    Provider.of<LocationProvider>(context,
-                                            listen: false)
-                                        .getWaypointsList(context);
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                WayPointsScreen()));
-                                  },
-                                  icon: Icons.pin_drop_outlined,
-                                  text: 'Waypoints',
-                                ),
-                              ),
-                              const SizedBox(width: 18),
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    final profile =
-                                        Provider.of<ProfileProvider>(context,
-                                            listen: false);
-                                    print(profile.userInfoModel!.id);
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              LiveLocationWorkerListScreen()),
-                                    );
-                                  },
-                                  icon: Icons.location_searching_rounded,
-                                  text: 'Track Workers',
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 15),
+                          HomeButton(
+                            onTap: () {
+                              Provider.of<LocationProvider>(context,
+                                      listen: false)
+                                  .getWaypointsList(context);
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          WayPointsScreen()));
+                            },
+                            icon: Icons.pin_drop_outlined,
+                            text: 'Waypoints',
                           ),
-                          const SizedBox(height: 18),
-                          Row(
-                            children: [
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (BuildContext context) =>
-                                                AdminTasksScreen()));
-                                  },
-                                  icon: Icons.task,
-                                  text: 'Tasks',
-                                ),
-                              ),
-                              const SizedBox(width: 18),
-                              Expanded(
-                                child: HomeButton(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              TaskUpdatesScreen()),
-                                    );
-                                  },
-                                  icon: Icons.analytics,
-                                  text: 'Reports',
-                                ),
-                              ),
-                            ],
+                          const SizedBox(height: 15),
+                          // HomeButton(
+                          //   onTap: () {
+                          //     final profile = Provider.of<ProfileProvider>(
+                          //         context,
+                          //         listen: false);
+                          //     print(profile.userInfoModel!.id);
+                          //     Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //           builder: (context) =>
+                          //               LiveLocationWorkerListScreen()),
+                          //     );
+                          //   },
+                          //   icon: Icons.location_searching_rounded,
+                          //   text: 'Track Workers',
+                          // ),
+                          // const SizedBox(height: 18),
+                          HomeButton(
+                            onTap: () {
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          AdminTasksScreen()));
+                            },
+                            icon: Icons.task,
+                            text: 'Tasks',
+                          ),
+                          const SizedBox(height: 15),
+                          HomeButton(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => TaskUpdatesScreen()),
+                              );
+                            },
+                            icon: Icons.analytics,
+                            text: 'Reports',
+                          ),
+                          const SizedBox(height: 15),
+                          HomeButton(
+                            onTap: () {
+                              Provider.of<WorkerProvider>(context,
+                                      listen: false)
+                                  .getWorkersList(context).then((value) => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        LiveLocationAdminScreen()), )
+
+
+                              );
+                            },
+                            icon: Icons.location_searching_rounded,
+                            text: 'Track Users',
                           ),
                         ],
                       ),

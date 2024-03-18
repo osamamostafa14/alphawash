@@ -4,6 +4,7 @@ import 'package:alphawash/utill/dimensions.dart';
 import 'package:alphawash/utill/images.dart';
 import 'package:alphawash/view/base/marker_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
@@ -24,11 +25,15 @@ class _AllAreasMapState extends State<AllAreasMap> {
 
   List<Polygon> polygons = [];
   List<Marker> polygonMarkers = [];
+  var _mapStyle;
+  Future _loadMapStyles() async {
+    _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
+  }
 
   @override
   void initState() {
     super.initState();
-    _initializeMarkers();
+    _initializeMarkers();_loadMapStyles();
   }
 
   Future<void> _initializeMarkers() async {
@@ -115,6 +120,8 @@ class _AllAreasMapState extends State<AllAreasMap> {
         markers: Set<Marker>.of(polygonMarkers),
         onMapCreated: (GoogleMapController controller) {
           _controller = controller;
+          controller.setMapStyle(_mapStyle);
+
         },
       ),
     );

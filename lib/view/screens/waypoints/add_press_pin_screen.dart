@@ -179,6 +179,7 @@ import 'package:alphawash/view/screens/waypoints/edit/edit_waypoint_screen.dart'
 import 'package:alphawash/view/screens/waypoints/pinpoint_info_bottom_sheet.dart';
 import 'package:alphawash/view/screens/waypoints/pinpoint_screens/list_pinpoint_tasks_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hive/hive.dart';
 import 'package:provider/provider.dart';
@@ -200,6 +201,11 @@ class AddAndPressPinPointScreen extends StatefulWidget {
 class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
   GoogleMapController? _controller;
 
+  var _mapStyle;
+  Future _loadMapStyles() async {
+    _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
+  }
+
   @override
   void initState() {
     Timer(const Duration(seconds: 1), () {
@@ -207,6 +213,7 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
       //     .getOldTasks(context, 43!);
     });
     super.initState();
+    _loadMapStyles();
   }
 
   LatLngBounds _editZoom(List<Marker> markers) {
@@ -297,28 +304,49 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
           appBar: AppBar(
             title: Text(
               'Worker Pins',
-              style: TextStyle(color: Colors.white),
+              style: TextStyle(color: Colors.black),
             ),
-            backgroundColor: Theme.of(context).primaryColor,
+            backgroundColor: Colors.white,
+            // backgroundColor: Theme.of(context).primaryColor,
             elevation: 0,
             centerTitle: true,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: IconButton(
+                  onPressed: () => Navigator.pop(context),
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Colors.black,
+                    size: 18,
+                  )),
+            ),
             actions: [
-              InkWell(
-                onTap: () {
-                  locationProvider.setSatelliteMode();
-                },
-                child: Center(
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10),
-                    child: Text(
-                      locationProvider.satelliteMode
-                          ? 'Normal Mode'
-                          : 'Satellite Mode',
-                      style: TextStyle(fontSize: 14),
-                    ),
+              Padding(
+                padding: const EdgeInsets.only(right: 10.0),
+                child: IconButton(
+                  onPressed: () => locationProvider.setSatelliteMode(),
+                  icon: Icon(
+                    Icons.map_outlined,
+                    color: Colors.black,
                   ),
                 ),
-              )
+              ),
+              // InkWell(
+              //   onTap: () {
+              //     locationProvider.setSatelliteMode();
+              //   },
+              //   child: Center(
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(right: 10),
+              //       child: Text(
+              //         locationProvider.satelliteMode
+              //             ? 'Normal Mode'
+              //             : 'Satellite Mode',
+              //         style: TextStyle(fontSize: 14),
+              //       ),
+              //     ),
+              //   ),
+              // )
             ],
           ),
           body: Center(
@@ -352,6 +380,7 @@ class _AddAndPressPinPointScreenState extends State<AddAndPressPinPointScreen> {
                           CameraUpdate.newLatLngBounds(bounds, 50),
                         );
                       }
+                      controller.setMapStyle(_mapStyle);
                     },
                   ),
                 ],

@@ -201,8 +201,8 @@ class LocationProvider with ChangeNotifier {
               image:
                   '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.taskImageUrl}/${pinpoint.lastTask!.image}',
             ).toBitmapDescriptor(
-              logicalSize: const Size(300, 200),
-              imageSize: const Size(300, 200),
+              logicalSize: const Size(350, 300),
+              imageSize: const Size(500, 200),
             )
           : await BitmapDescriptor.defaultMarker;
     } else {
@@ -1336,6 +1336,7 @@ class LocationProvider with ChangeNotifier {
     double longitude,
   ) {
     _workerLocations?.doc(userId).set({
+      'id':userId,
       'name': userName,
       'latitude': latitude,
       'longitude': longitude,
