@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:alphawash/data/model/response/user_info_model.dart';
@@ -25,7 +24,19 @@ class _LiveLocationAdminScreenState extends State<LiveLocationAdminScreen> {
   final Completer<GoogleMapController> _controller = Completer();
 
   LatLng? myLocation;
-  void showUserPopupMenu(BuildContext context) async {
+
+
+  @override
+  void initState() {
+    Timer(const Duration(seconds: 1), () {
+      Provider.of<WorkerProvider>(context, listen: false)
+          .getWorkersList(context);
+    });
+    super.initState();
+
+    _loadMapStyles();
+    initMarkers();
+  }  void showUserPopupMenu(BuildContext context) async {
     final snapshot = await FirebaseFirestore.instance
         .collection('worker_locations_tracking')
         .get();
@@ -39,9 +50,9 @@ class _LiveLocationAdminScreenState extends State<LiveLocationAdminScreen> {
       position: RelativeRect.fromLTRB(0, double.infinity, double.infinity, 0),
       items: users
           .map((name) => PopupMenuItem<String>(
-                value: name,
-                child: Text(name),
-              ))
+        value: name,
+        child: Text(name),
+      ))
           .toList(),
     );
 
@@ -64,7 +75,7 @@ class _LiveLocationAdminScreenState extends State<LiveLocationAdminScreen> {
       final latitude = data['latitude'] as double;
       final longitude = data['longitude'] as double;
       final newPosition =
-          CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
+      CameraPosition(target: LatLng(latitude, longitude), zoom: 15);
       GoogleMapController controller = await _controller.future;
       controller.animateCamera(CameraUpdate.newCameraPosition(newPosition));
 
@@ -96,7 +107,7 @@ class _LiveLocationAdminScreenState extends State<LiveLocationAdminScreen> {
             .workersList!
             .firstWhere(
               (worker) => worker.id == int.parse(workerId),
-            );
+        );
         check = true;
         print('user image=> ${_user.image}');
       } catch (e) {
@@ -109,57 +120,46 @@ class _LiveLocationAdminScreenState extends State<LiveLocationAdminScreen> {
           infoWindow: InfoWindow(title: data['name'] as String),
           position: LatLng(latitude, longitude),
           icon: await Container(
-                  height: 40,
-                  width: 30,
-                  decoration: BoxDecoration(
+              height: 40,
+              width: 30,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  color: Colors.red),
+              child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 0,
+                  ),
+                  child: check == false
+                      ? Container(
+                    height: 40,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.black),
+                    width: 30,
+                    child: Center(
+                      child: Text(data['name'][0] as String,
+                          style: TextStyle(
+                              color: Colors.white, fontSize: 12)),
+                    ),
+                  )
+                      : ClipRRect(
                       borderRadius: BorderRadius.circular(10),
-                      color: Colors.red),
-                  child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 0,
-                      ),
-                      child: check == false
-                          ? Container(
-                              height: 40,
-                              decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  color: Colors.black),
-                              width: 30,
-                              child: Center(
-                                child: Text(data['name'][0] as String,
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 12)),
-                              ),
-                            )
-                          : ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: FadeInImage.assetNetwork(
-                                  placeholder: Images.profile_icon,
-                                  image:
-                                      '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.userImageUrl}/${_user!.image}',
-                                  height: 40,
-                                  width: 30,
-                                  fit: BoxFit.cover))))
+                      child: FadeInImage.assetNetwork(
+                          placeholder: Images.profile_icon,
+                          image:
+                          '${Provider.of<SplashProvider>(context, listen: false).baseUrls!.userImageUrl}/${_user!.image}',
+                          height: 40,
+                          width: 30,
+                          fit: BoxFit.cover))))
               .toBitmapDescriptor(
-                  logicalSize: const Size(50, 200),
-                  imageSize: const Size(300, 200))));
+              logicalSize: const Size(50, 200),
+              imageSize: const Size(300, 200))));
     }
   }
 
   var _mapStyle;
   Future _loadMapStyles() async {
     _mapStyle = await rootBundle.loadString('assets/map/map_theme.json');
-  }
-
-  @override
-  void initState() {
-    Timer(const Duration(seconds: 1), () {
-      Provider.of<WorkerProvider>(context, listen: false).getWorkersList(context);
-    });
-    super.initState();
-
-    _loadMapStyles();
-    initMarkers();
   }
 
   @override

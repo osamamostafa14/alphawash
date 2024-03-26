@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:alphawash/view/screens/live_location_tracking/track_admin_location_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -63,9 +64,6 @@ class _LiveLocationWorkerListScreenState
                       );
                     }
 
-                    // List<UserInfoModel> workersList =
-                    //     workerProvider.workersList ?? [];
-
                     List<String> workerNames = snapshot.data!.docs
                         .map((doc) =>
                             (doc.data() as Map<String, dynamic>)['name']
@@ -92,26 +90,69 @@ class _LiveLocationWorkerListScreenState
                                               child:
                                                   Text('No saved users yet')),
                                         )
-                                      : ListView.builder(
-                                          padding:
-                                              const EdgeInsets.only(top: 20),
-                                          itemCount: workerProvider
-                                              .workersList!.length,
-                                          physics:
-                                              const NeverScrollableScrollPhysics(),
-                                          shrinkWrap: true,
-                                          itemBuilder: (context, index) {
-                                            UserInfoModel _user = workerProvider
-                                                .workersList![index];
-                                            bool hasLocation = workerNames
-                                                .contains(_user.fullName);
-                                            return WorkerLocationCardWidget(
-                                              user: _user,
-                                              hasLocation: hasLocation,
-                                              scaffoldKey: _scaffoldKey,
-                                            );
-                                          },
-                                        ),
+                                      : Column(children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                top: 8.0, left: 8, right: 8),
+                                            child: InkWell(
+                                              onTap: () {
+                                                Navigator.push(
+                                                    context,
+                                                    MaterialPageRoute(
+                                                        builder: (BuildContext
+                                                                context) =>
+                                                            TrackAdminLocationScreen()));
+                                              },
+                                              child: Column(
+                                                children: [
+                                                  Row(
+                                                    children: [
+                                                      Icon(Icons
+                                                          .location_on_outlined),
+                                                      const SizedBox(width: 5),
+                                                      Text(
+                                                        'My Location',
+                                                        maxLines: 1,
+                                                        overflow: TextOverflow
+                                                            .ellipsis,
+                                                        style: TextStyle(
+                                                            fontSize: 17),
+                                                      ),
+                                                      Spacer(),
+                                                      Icon(
+                                                          Icons
+                                                              .arrow_forward_ios_rounded,
+                                                          color:
+                                                              Colors.black54),
+                                                    ],
+                                                  ),
+                                                  const Divider()
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                          ListView.builder(
+                                            padding:
+                                                const EdgeInsets.only(top: 5),
+                                            itemCount: workerProvider
+                                                .workersList!.length,
+                                            physics:
+                                                const NeverScrollableScrollPhysics(),
+                                            shrinkWrap: true,
+                                            itemBuilder: (context, index) {
+                                              UserInfoModel _user =
+                                                  workerProvider
+                                                      .workersList![index];
+                                              bool hasLocation = workerNames
+                                                  .contains(_user.fullName);
+                                              return WorkerLocationCardWidget(
+                                                user: _user,
+                                                hasLocation: hasLocation,
+                                                scaffoldKey: _scaffoldKey,
+                                              );
+                                            },
+                                          ),
+                                        ]),
                                 ),
                         ),
                       ),
@@ -127,6 +168,3 @@ class _LiveLocationWorkerListScreenState
     );
   }
 }
-
-
-

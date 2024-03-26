@@ -109,6 +109,20 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                               builder: (BuildContext context) =>
                                                   DashboardScreen(
                                                       pageIndex: 0)));
+                                      final provider =
+                                          Provider.of<LocationProvider>(
+                                        context,
+                                        listen: false,
+                                      );
+                                      final profileProvider =
+                                          Provider.of<ProfileProvider>(context,
+                                              listen: false);
+                                      provider.startLocationUpdate(
+                                        profileProvider.userInfoModel!.id!
+                                            .toString(),
+                                        profileProvider
+                                            .userInfoModel!.fullName!,
+                                      );
                                     } else {
                                       workerProvider.reminder.isNotEmpty
                                           ? showDialog(
@@ -780,6 +794,21 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                                                     (BuildContext context) =>
                                                         DashboardScreen(
                                                             pageIndex: 0)));
+                                        final provider =
+                                            Provider.of<LocationProvider>(
+                                          context,
+                                          listen: false,
+                                        );
+                                        final profileProvider =
+                                            Provider.of<ProfileProvider>(
+                                                context,
+                                                listen: false);
+                                        provider.startLocationUpdate(
+                                          profileProvider.userInfoModel!.id!
+                                              .toString(),
+                                          profileProvider
+                                              .userInfoModel!.fullName!,
+                                        );
                                       } else {
                                         workerProvider.reminder.isNotEmpty
                                             ? showDialog(

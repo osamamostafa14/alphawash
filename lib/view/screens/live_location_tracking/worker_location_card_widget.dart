@@ -21,16 +21,15 @@ class WorkerLocationCardWidget extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: InkWell(
-
         onTap: () {
           if (hasLocation) {
             Navigator.push(
               context,
               MaterialPageRoute(
                 builder: (context) => UserLocationPage(
-                    userId: user!.id.toString(),
-                    userName: user!.fullName.toString(),
-                 // userImage: user!.image!,
+                  userId: user!.id.toString(),
+                  userName: user!.fullName.toString(),
+                  // userImage: user!.image!,
                 ),
               ),
             );
@@ -54,6 +53,7 @@ class WorkerLocationCardWidget extends StatelessWidget {
               },
             );
             print('false ');
+            print(user!.id.toString());
           }
         },
         child: Column(
@@ -79,5 +79,3 @@ class WorkerLocationCardWidget extends StatelessWidget {
     );
   }
 }
-
-

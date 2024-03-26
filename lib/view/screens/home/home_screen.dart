@@ -330,23 +330,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             text: 'Waypoints',
                           ),
                           const SizedBox(height: 15),
-                          // HomeButton(
-                          //   onTap: () {
-                          //     final profile = Provider.of<ProfileProvider>(
-                          //         context,
-                          //         listen: false);
-                          //     print(profile.userInfoModel!.id);
-                          //     Navigator.push(
-                          //       context,
-                          //       MaterialPageRoute(
-                          //           builder: (context) =>
-                          //               LiveLocationWorkerListScreen()),
-                          //     );
-                          //   },
-                          //   icon: Icons.location_searching_rounded,
-                          //   text: 'Track Workers',
-                          // ),
-                          // const SizedBox(height: 18),
+
                           HomeButton(
                             onTap: () {
                               Navigator.push(
@@ -371,22 +355,40 @@ class _HomeScreenState extends State<HomeScreen> {
                             text: 'Reports',
                           ),
                           const SizedBox(height: 15),
+                          // HomeButton(
+                          //   onTap: () {
+                          //     Provider.of<WorkerProvider>(context,
+                          //             listen: false)
+                          //         .getWorkersList(context)
+                          //         .then((value) => Navigator.push(
+                          //             context,
+                          //             MaterialPageRoute(
+                          //                 builder: (context) =>
+                          //                     LiveLocationAdminScreen())));
+                          //   },
+                          //   icon: Icons.location_searching_rounded,
+                          //   text: 'Track Users',
+                          // ),
+
+
+
                           HomeButton(
                             onTap: () {
-                              Provider.of<WorkerProvider>(context,
-                                      listen: false)
-                                  .getWorkersList(context).then((value) => Navigator.push(
+                              final profile = Provider.of<ProfileProvider>(
+                                  context,
+                                  listen: false);
+                              print(profile.userInfoModel!.id);
+                              Navigator.push(
                                 context,
                                 MaterialPageRoute(
                                     builder: (context) =>
-                                        LiveLocationAdminScreen()), )
-
-
+                                        LiveLocationWorkerListScreen()),
                               );
                             },
                             icon: Icons.location_searching_rounded,
-                            text: 'Track Users',
+                            text: 'Track Workers',
                           ),
+                          const SizedBox(height: 18),
                         ],
                       ),
                     ),

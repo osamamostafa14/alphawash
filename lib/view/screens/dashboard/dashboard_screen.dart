@@ -1,6 +1,6 @@
-import 'package:alphawash/provider/location_provider.dart';
+import 'package:alphawash/utill/color_resources.dart';
 import 'package:alphawash/view/screens/home/home_screen.dart';
-import 'package:alphawash/view/screens/profile/profile_screen.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:alphawash/provider/auth_provider.dart';
@@ -18,10 +18,6 @@ class _DashboardScreenState extends State<DashboardScreen> {
   PageController? _pageController;
   int _pageIndex = 0;
   List<Widget>? _screens;
-  List<IconData> navIcons = [Icons.home, Icons.person, Icons.menu];
-  List<String> navTitle = ['Home', 'Profile', 'Menu'];
-  int selectedIndex = 0;
-
   GlobalKey<ScaffoldMessengerState> _scaffoldKey = GlobalKey();
 
   @override
@@ -32,7 +28,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
     _pageController = PageController(initialPage: widget.pageIndex!);
 
-    _screens = [HomeScreen(), ProfileScreen(), MenuScreen()];
+    _screens = [HomeScreen(), MenuScreen()];
   }
 
   @override
@@ -48,20 +44,70 @@ class _DashboardScreenState extends State<DashboardScreen> {
       },
       child: Scaffold(
         key: _scaffoldKey,
-        body: Stack(
-          children: [
-            PageView.builder(
-              controller: _pageController,
-              itemCount: _screens!.length,
-              physics: const NeverScrollableScrollPhysics(),
-              itemBuilder: (context, index) {
-                return _screens![index];
-              },
+        bottomNavigationBar: Padding(
+          padding: const EdgeInsets.all(20),
+          child: Container(
+            decoration: BoxDecoration(color: Colors.transparent,
+              borderRadius: BorderRadius.circular(20),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.2),
+                  spreadRadius: 3,
+                  blurRadius: 30,
+                  offset: const Offset(1, 1), // changes position of shadow
+                ),
+              ],
             ),
-            Align(alignment: Alignment.bottomCenter, child: NavBar()),
-          ],
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(20),
+              child: BottomNavigationBar(
+                elevation: 20,
+                backgroundColor: Colors.white,
+                selectedItemColor: Theme.of(context!).primaryColor,
+                unselectedItemColor: Colors.black54,
+                showUnselectedLabels: true,
+                currentIndex: _pageIndex,
+                selectedFontSize:
+                    Theme.of(context!).textTheme.bodyText1!.fontSize!,
+                unselectedFontSize:
+                    Theme.of(context).textTheme.bodyText1!.fontSize!,
+                type: BottomNavigationBarType.fixed,
+                items: [
+                  _barItem(Icons.home, 'Home', 0),
+                  _barItem(Icons.menu, 'Menu', 1),
+                ],
+                onTap: (int index) {
+                  _setPage(index);
+                },
+              ),
+            ),
+          ),
+        ),
+        body: PageView.builder(
+          controller: _pageController,
+          itemCount: _screens!.length,
+          physics: const NeverScrollableScrollPhysics(),
+          itemBuilder: (context, index) {
+            return _screens![index];
+          },
         ),
       ),
+    );
+  }
+
+  BottomNavigationBarItem _barItem(IconData icon, String label, int index) {
+    return BottomNavigationBarItem(
+      icon: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          Icon(icon,
+              color: index == _pageIndex
+                  ? Theme.of(context!).primaryColor
+                  : Colors.black54,
+              size: 25),
+        ],
+      ),
+      label: label,
     );
   }
 
@@ -71,67 +117,9 @@ class _DashboardScreenState extends State<DashboardScreen> {
       _pageIndex = pageIndex;
       final bool _isLoggedIn =
           Provider.of<CustomerAuthProvider>(context, listen: false).isLoggedIn;
-      if (_pageIndex == 2) {
+      if (_pageIndex == 1) {
         if (_isLoggedIn) {}
       }
     });
-  }
-
-  Widget NavBar() {
-    return Container(
-      height: 65,
-      margin: EdgeInsets.only(right: 24, left: 24, bottom: 24),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-                color: Colors.black.withAlpha(20),
-                blurRadius: 20,
-                spreadRadius: 10)
-          ]),
-      child: Row(
-        children: navIcons.map((icon) {
-          int index = navIcons.indexOf(icon);
-          bool isSelected = selectedIndex == index;
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Material(
-                color: Colors.transparent,
-                child: GestureDetector(
-                  onTap: () {
-                    _setPage(index);
-                    selectedIndex = index;
-                  },
-                  child: Column(
-                    children: [
-                      Container(
-                        alignment: Alignment.center,
-                        margin: EdgeInsets.only(
-                            top: 15, bottom: 0, left: 25, right: 25),
-                        child: Icon(
-                          icon,
-                          color: isSelected
-                              ? Theme.of(context).primaryColor
-                              : Colors.black,
-                        ),
-                      ),
-                      Text(
-                        navTitle[index],
-                        style: TextStyle(
-                          color: isSelected
-                              ? Theme.of(context).primaryColor
-                              : Colors.black,
-                        ),
-                      )
-                    ],
-                  ),
-                )),
-          );
-        }).toList(),
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      ),
-    );
   }
 }
