@@ -81,10 +81,7 @@ class AppConstants {
  static const String THEME = 'theme';
  static const String PRIMARY_COLOR = 'primary_color';
  static const String FONT_SIZE = 'font_size';
- // TEMPORARY
 
-  static const String API_KEY = 'AIzaSyBIbAyozsooyfTl49xleURPX7424AUJpuA';   // TEMPORARY
- //static const String API_KEY = 'AIzaSyAuwPPxNuNZx8vgqADq_1oe13KDnEaGTfg';
  // internal
  static const String DRIVER_TOKEN = 'token';
  static const String DRIVER_ID = 'driver_id';
